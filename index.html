@@ -796,8 +796,8 @@ footer p {
 
 <!-- HERO -->
 <section id="hero">
-  <video class="hero-video" id="heroVideo" autoplay muted loop playsinline aria-hidden="true">
-    <source id="heroVideoSrc" src="img/hero_reel_opt.mp4" type="video/mp4">
+  <video class="hero-video" autoplay muted loop playsinline aria-hidden="true">
+    <source src="img/hero_bg.mp4" type="video/mp4">
   </video>
   <div class="hero-overlay"></div>
   <div class="hero-content">
@@ -1161,18 +1161,6 @@ footer p {
 </footer>
 
 <script>
-// ─── HERO VIDEO: serve mobile-optimised file on small screens ───
-(function() {
-  if (window.innerWidth <= 768 || ('ontouchstart' in window && window.innerWidth <= 1024)) {
-    const src = document.getElementById('heroVideoSrc');
-    if (src) {
-      src.src = 'img/hero_mobile.mp4';
-      const v = document.getElementById('heroVideo');
-      if (v) v.load();
-    }
-  }
-})();
-
 // ─── MOBILE MENU ───
 const hamburger = document.getElementById('navHamburger');
 const mobileMenu = document.getElementById('mobileMenu');
