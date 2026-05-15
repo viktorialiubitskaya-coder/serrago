@@ -1,0 +1,7 @@
+# Raw video renders not used by the site
+reel.mp4
+veo_reel.mp4
+veo/
+
+# OS
+.DS_Store

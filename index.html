@@ -1,0 +1,1299 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Ristorante Serrago — Tradizione e Innovazione · Praia a Mare</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;1,300;1,400;1,500&family=Raleway:wght@300;400;500;600&display=swap" rel="stylesheet">
+<style>
+/* ─── TOKENS ─── */
+:root {
+  --bg:           #09100A;
+  --bg2:          #0E160F;
+  --surface:      #141C15;
+  --border:       #222D23;
+  --text:         #F0EDE8;
+  --muted:        #7A7A6E;
+  --accent:       #B8965A;
+  --accent-d:     #8A6E3E;
+  --font-d:       'Cormorant Garamond', Georgia, serif;
+  --font-b:       'Raleway', sans-serif;
+  --ease:         cubic-bezier(0.25, 0.46, 0.45, 0.94);
+  /* overlay tokens — avoid scattered rgba literals */
+  --ov-hero-top:    rgba(9,16,10,0.35);
+  --ov-hero-mid:    rgba(9,16,10,0.15);
+  --ov-hero-btm:    rgba(9,16,10,0.55);
+  --ov-hero-base:   rgba(9,16,10,0.95);
+  --ov-video:       rgba(9,16,10,0.50);
+  --ov-lb:          rgba(9,16,10,0.96);
+}
+
+/* ─── RESET ─── */
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+html { scroll-behavior: smooth; }
+body {
+  background: var(--bg);
+  color: var(--text);
+  font-family: var(--font-b);
+  font-weight: 300;
+  overflow-x: hidden;
+  -webkit-font-smoothing: antialiased;
+}
+img { display: block; width: 100%; }
+a  { color: inherit; text-decoration: none; }
+
+/* ─── SKIP LINK ─── */
+.skip-link {
+  position: absolute;
+  top: -100%;
+  left: 1rem;
+  z-index: 9999;
+  background: var(--accent);
+  color: var(--bg);
+  font-family: var(--font-b);
+  font-size: 0.8rem;
+  font-weight: 500;
+  letter-spacing: 0.1em;
+  padding: 0.6rem 1.2rem;
+  border-radius: 2px;
+  text-transform: uppercase;
+}
+.skip-link:focus { top: 1rem; }
+
+/* ─── GLOBAL FOCUS RING ─── */
+:focus-visible {
+  outline: 2px solid var(--accent);
+  outline-offset: 3px;
+}
+
+/* ─── GRAIN TEXTURE — breaks flat AI aesthetic ─── */
+body::after {
+  content: '';
+  position: fixed;
+  inset: 0;
+  z-index: 9998;
+  pointer-events: none;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='300' height='300'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.75' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='300' height='300' filter='url(%23n)' opacity='0.035'/%3E%3C/svg%3E");
+  opacity: 0.4;
+}
+
+/* ─── NAV ─── */
+nav {
+  position: fixed;
+  top: 0; left: 0; right: 0;
+  z-index: 100;
+  padding: 1.5rem 3rem;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  transition: background 0.4s var(--ease), backdrop-filter 0.4s, padding 0.3s;
+}
+nav.scrolled {
+  background: rgba(9, 16, 10, 0.88);
+  backdrop-filter: blur(18px);
+  -webkit-backdrop-filter: blur(18px);
+  padding: 1rem 3rem;
+  border-bottom: 1px solid var(--border);
+}
+.nav-brand {
+  font-family: var(--font-d);
+  font-size: 1.25rem;
+  font-weight: 500;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+}
+.nav-brand span { color: var(--accent); }
+.nav-links {
+  display: flex;
+  gap: 2.5rem;
+  list-style: none;
+}
+.nav-links a {
+  font-size: 0.75rem;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--muted);
+  transition: color 0.25s;
+}
+.nav-links a:hover { color: var(--text); }
+.nav-cta {
+  font-size: 0.72rem;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  border: 1px solid var(--accent);
+  color: var(--accent);
+  padding: 0.65rem 1.4rem;
+  min-height: 44px;
+  display: inline-flex;
+  align-items: center;
+  border-radius: 2px;
+  transition: background 0.25s, color 0.25s;
+}
+.nav-cta:hover { background: var(--accent); color: var(--bg); }
+
+/* ─── HERO ─── */
+#hero {
+  position: relative;
+  height: 100dvh;
+  min-height: 600px;
+  overflow: hidden;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.hero-video {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: center;
+  opacity: 0.75;
+}
+.hero-overlay {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(
+    to bottom,
+    var(--ov-hero-top)  0%,
+    var(--ov-hero-mid)  40%,
+    var(--ov-hero-btm)  80%,
+    var(--ov-hero-base) 100%
+  );
+}
+.hero-content {
+  position: relative;
+  z-index: 2;
+  text-align: center;
+  padding: 0 2rem;
+}
+.hero-eyebrow {
+  font-size: 0.72rem;
+  letter-spacing: 0.3em;
+  text-transform: uppercase;
+  color: var(--accent);
+  margin-bottom: 1.5rem;
+  opacity: 0;
+  transform: translateY(16px);
+  transition: opacity 0.8s var(--ease), transform 0.8s var(--ease);
+}
+.hero-title {
+  font-family: var(--font-d);
+  font-size: clamp(3.5rem, 9vw, 8rem);
+  font-weight: 300;
+  line-height: 0.95;
+  letter-spacing: -0.01em;
+  margin-bottom: 1.25rem;
+  opacity: 0;
+  transform: translateY(20px);
+  transition: opacity 1s 0.15s var(--ease), transform 1s 0.15s var(--ease);
+}
+.hero-sub {
+  font-family: var(--font-d);
+  font-style: italic;
+  font-size: clamp(1.1rem, 2.5vw, 1.6rem);
+  font-weight: 300;
+  color: rgba(240,237,232,0.72);
+  letter-spacing: 0.06em;
+  margin-bottom: 2.8rem;
+  opacity: 0;
+  transform: translateY(16px);
+  transition: opacity 0.9s 0.3s var(--ease), transform 0.9s 0.3s var(--ease);
+}
+.hero-cta {
+  display: inline-block;
+  font-size: 0.75rem;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  border: 1px solid rgba(184,150,90,0.7);
+  color: var(--accent);
+  padding: 0.9rem 2.5rem;
+  border-radius: 2px;
+  transition: background 0.28s, color 0.28s, border-color 0.28s;
+  opacity: 0;
+  transform: translateY(12px);
+  transition: opacity 0.8s 0.5s var(--ease), transform 0.8s 0.5s var(--ease), background 0.28s, color 0.28s;
+}
+.hero-cta:hover { background: var(--accent); color: var(--bg); border-color: var(--accent); }
+.hero-scroll {
+  position: absolute;
+  bottom: 2.5rem;
+  left: 50%;
+  transform: translateX(-50%);
+  z-index: 2;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.5rem;
+}
+.hero-scroll-line {
+  width: 1px;
+  height: 48px;
+  background: linear-gradient(to bottom, var(--accent), transparent);
+  animation: scrollPulse 2s ease-in-out infinite;
+}
+@keyframes scrollPulse {
+  0%,100% { opacity: 0.4; transform: scaleY(1); }
+  50%      { opacity: 1;   transform: scaleY(1.2); }
+}
+
+/* ─── REVEAL ANIMATION ─── */
+.reveal { opacity: 0; transform: translateY(32px); transition: opacity 0.8s var(--ease), transform 0.8s var(--ease); }
+.reveal.visible { opacity: 1; transform: none; }
+.reveal-delay-1 { transition-delay: 0.1s; }
+.reveal-delay-2 { transition-delay: 0.2s; }
+.reveal-delay-3 { transition-delay: 0.35s; }
+.reveal-delay-4 { transition-delay: 0.5s; }
+
+/* ─── SECTIONS ─── */
+section { padding: 7rem 3rem; }
+.section-label {
+  font-size: 0.68rem;
+  letter-spacing: 0.28em;
+  text-transform: uppercase;
+  color: var(--accent);
+  margin-bottom: 1.2rem;
+}
+.section-title {
+  font-family: var(--font-d);
+  font-size: clamp(2.4rem, 5vw, 4.2rem);
+  font-weight: 300;
+  line-height: 1.08;
+  letter-spacing: -0.01em;
+}
+.section-title em { font-style: italic; color: rgba(240,237,232,0.65); }
+
+/* ─── MANIFESTO ─── */
+#manifesto {
+  background: var(--bg2);
+  text-align: center;
+  padding: 9rem 3rem;
+}
+.manifesto-quote {
+  font-family: var(--font-d);
+  font-style: italic;
+  font-size: clamp(1.6rem, 4vw, 3.2rem);
+  font-weight: 300;
+  line-height: 1.35;
+  max-width: 820px;
+  margin: 0 auto 2.5rem;
+  color: rgba(240,237,232,0.88);
+}
+.manifesto-attr {
+  font-size: 0.72rem;
+  letter-spacing: 0.22em;
+  text-transform: uppercase;
+  color: var(--accent);
+}
+
+/* ─── DISHES ─── */
+#piatti {
+  background: var(--bg);
+  padding: 7rem 0 7rem 3rem;
+}
+#piatti .section-header {
+  padding-right: 3rem;
+  margin-bottom: 3.5rem;
+  display: flex;
+  align-items: flex-end;
+  justify-content: space-between;
+}
+.dishes-rail {
+  display: flex;
+  gap: 1.5rem;
+  overflow-x: auto;
+  padding-right: 3rem;
+  padding-bottom: 1rem;
+  scroll-snap-type: x mandatory;
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+  cursor: grab;
+}
+.dishes-rail:active { cursor: grabbing; }
+.dishes-rail::-webkit-scrollbar { display: none; }
+.dish-card {
+  flex: 0 0 320px;
+  scroll-snap-align: start;
+  border: 1px solid var(--border);
+  border-radius: 4px;
+  overflow: hidden;
+  background: var(--surface);
+  transition: transform 0.35s var(--ease), border-color 0.3s;
+}
+.dish-card:hover {
+  transform: translateY(-6px);
+  border-color: rgba(184,150,90,0.4);
+  will-change: transform;
+}
+.dish-card-img {
+  height: 240px;
+  overflow: hidden;
+}
+.dish-card-img img {
+  height: 100%;
+  object-fit: cover;
+  transition: transform 0.6s var(--ease);
+}
+.dish-card:hover .dish-card-img img { transform: scale(1.05); }
+.dish-card-body {
+  padding: 1.4rem 1.5rem;
+}
+.dish-tag {
+  font-size: 0.65rem;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: var(--accent);
+  margin-bottom: 0.5rem;
+}
+.dish-name {
+  font-family: var(--font-d);
+  font-size: 1.4rem;
+  font-weight: 400;
+  margin-bottom: 0.5rem;
+}
+.dish-desc {
+  font-size: 0.82rem;
+  color: var(--muted);
+  line-height: 1.6;
+}
+
+/* ─── VIDEO PARALLAX ─── */
+#video-section {
+  position: relative;
+  height: 70vh;
+  overflow: hidden;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+#video-section video {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  opacity: 0.6;
+}
+#video-section::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: var(--ov-video);
+  z-index: 1;
+}
+.video-text {
+  position: relative;
+  z-index: 2;
+  text-align: center;
+  padding: 0 2rem;
+}
+.video-text h2 {
+  font-family: var(--font-d);
+  font-style: italic;
+  font-size: clamp(2rem, 6vw, 5rem);
+  font-weight: 300;
+  line-height: 1.15;
+  color: var(--text);
+}
+.video-text p {
+  margin-top: 1.2rem;
+  font-size: 0.8rem;
+  letter-spacing: 0.22em;
+  text-transform: uppercase;
+  color: var(--accent);
+}
+
+/* ─── GALLERY ─── */
+#galleria {
+  background: var(--bg2);
+}
+.gallery-grid {
+  column-count: 3;
+  column-gap: 1rem;
+  margin-top: 3.5rem;
+}
+.gallery-item {
+  break-inside: avoid;
+  margin-bottom: 1rem;
+  overflow: hidden;
+  border-radius: 3px;
+  cursor: pointer;
+  position: relative;
+}
+.gallery-item::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: rgba(184,150,90,0);
+  transition: background 0.35s;
+}
+.gallery-item:hover::after { background: rgba(184,150,90,0.12); }
+.gallery-item img {
+  display: block;
+  width: 100%;
+  transition: transform 0.55s var(--ease);
+}
+.gallery-item:hover img { transform: scale(1.04); }
+
+/* ─── LIGHTBOX ─── */
+#lightbox {
+  display: none;
+  position: fixed;
+  inset: 0;
+  z-index: 999;
+  background: var(--ov-lb);
+  align-items: center;
+  justify-content: center;
+  padding: 2rem;
+}
+#lightbox.open { display: flex; }
+#lightbox img {
+  max-width: 90vw;
+  max-height: 90vh;
+  object-fit: contain;
+  border-radius: 3px;
+}
+#lightbox-close {
+  position: absolute;
+  top: 1.5rem; right: 2rem;
+  font-size: 2rem;
+  color: var(--muted);
+  cursor: pointer;
+  background: none;
+  border: none;
+  transition: color 0.2s;
+}
+#lightbox-close:hover { color: var(--text); }
+
+/* ─── RECENSIONI ─── */
+.review-rail {
+  display: flex;
+  gap: 1.5rem;
+  overflow-x: auto;
+  padding: 2.5rem 0 1rem;
+  scroll-snap-type: x mandatory;
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+  cursor: grab;
+}
+.review-rail:active { cursor: grabbing; }
+.review-rail::-webkit-scrollbar { display: none; }
+.review-card {
+  flex: 0 0 320px;
+  scroll-snap-align: start;
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 4px;
+  padding: 1.8rem;
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+  transition: border-color 0.3s, transform 0.3s var(--ease);
+}
+.review-card:hover {
+  border-color: rgba(184,150,90,0.35);
+  transform: translateY(-4px);
+  will-change: transform;
+}
+.review-stars {
+  color: var(--accent);
+  font-size: 0.95rem;
+  letter-spacing: 2px;
+}
+.review-text {
+  font-family: var(--font-d);
+  font-style: italic;
+  font-size: 1.05rem;
+  font-weight: 300;
+  line-height: 1.6;
+  color: rgba(240,237,232,0.85);
+  flex: 1;
+}
+.review-author {
+  display: flex;
+  flex-direction: column;
+  gap: 0.2rem;
+  padding-top: 0.8rem;
+  border-top: 1px solid var(--border);
+}
+.review-name {
+  font-size: 0.82rem;
+  font-weight: 500;
+  letter-spacing: 0.06em;
+  color: var(--text);
+}
+.review-date {
+  font-size: 0.7rem;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--muted);
+}
+
+/* ─── PRENOTA ─── */
+#prenota {
+  background: var(--bg);
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 5rem;
+  align-items: start;
+}
+.prenota-info .section-title { margin-bottom: 1.5rem; }
+.prenota-info p {
+  font-size: 0.9rem;
+  color: var(--muted);
+  line-height: 1.75;
+  max-width: 400px;
+}
+.booking-form {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 1rem;
+}
+.field { display: flex; flex-direction: column; gap: 0.4rem; }
+.field.full { grid-column: 1 / -1; }
+.field label {
+  font-size: 0.65rem;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: var(--muted);
+}
+.field input, .field select, .field textarea {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 2px;
+  color: var(--text);
+  font-family: var(--font-b);
+  font-size: 0.88rem;
+  font-weight: 300;
+  padding: 0.75rem 1rem;
+  outline: none;
+  transition: border-color 0.25s;
+}
+.field input:focus, .field select:focus, .field textarea:focus {
+  border-color: var(--accent);
+}
+.field select { appearance: none; cursor: pointer; }
+.field textarea { resize: vertical; min-height: 90px; }
+.book-btn {
+  grid-column: 1 / -1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.6rem;
+  background: transparent;
+  border: 1px solid var(--accent);
+  color: var(--accent);
+  font-family: var(--font-b);
+  font-size: 0.75rem;
+  font-weight: 500;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  padding: 1rem;
+  border-radius: 2px;
+  cursor: pointer;
+  transition: background 0.28s, color 0.28s;
+}
+.book-btn:hover { background: var(--accent); color: var(--bg); }
+.book-btn svg { width: 18px; height: 18px; }
+
+/* ─── CONTATTI ─── */
+#contatti {
+  background: var(--bg2);
+  border-top: 1px solid var(--border);
+}
+.contatti-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr;
+  gap: 4rem;
+  margin-top: 3.5rem;
+}
+.contatti-block h3 {
+  font-size: 0.65rem;
+  letter-spacing: 0.24em;
+  text-transform: uppercase;
+  color: var(--accent);
+  margin-bottom: 1.2rem;
+}
+.contatti-block p, .contatti-block a {
+  font-size: 0.9rem;
+  color: var(--muted);
+  line-height: 1.85;
+  display: block;
+  transition: color 0.2s;
+}
+.contatti-block a:hover { color: var(--text); }
+.social-row {
+  display: flex;
+  gap: 1.2rem;
+  margin-top: 1rem;
+}
+.social-btn {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  font-size: 0.75rem;
+  letter-spacing: 0.1em;
+  color: var(--muted);
+  border: 1px solid var(--border);
+  padding: 0.65rem 1rem;
+  min-height: 44px;
+  border-radius: 2px;
+  transition: border-color 0.25s, color 0.25s;
+}
+.social-btn:hover { border-color: var(--accent); color: var(--text); }
+
+/* ─── FOOTER ─── */
+footer {
+  background: var(--bg);
+  border-top: 1px solid var(--border);
+  padding: 2rem 3rem;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+footer p {
+  font-size: 0.72rem;
+  color: var(--muted);
+  letter-spacing: 0.06em;
+}
+
+/* ─── REDUCED MOTION ─── */
+@media (prefers-reduced-motion: reduce) {
+  .reveal { opacity: 1; transform: none; transition: none; }
+  .hero-eyebrow, .hero-title, .hero-sub, .hero-cta { opacity: 1; transform: none; transition: none; }
+  .hero-scroll-line { animation: none; }
+  .dish-card, .gallery-item img, .review-card { transition: none; }
+}
+
+/* ─── GALLERY ITEM AS BUTTON ─── */
+.gallery-item[role="button"] { outline: none; }
+.gallery-item[role="button"]:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
+
+/* ─── HAMBURGER ─── */
+.nav-hamburger {
+  display: none;
+  flex-direction: column;
+  justify-content: center;
+  gap: 5px;
+  background: none;
+  border: none;
+  cursor: pointer;
+  padding: 8px;
+  width: 44px;
+  height: 44px;
+}
+.nav-hamburger span {
+  display: block;
+  width: 22px;
+  height: 1px;
+  background: var(--text);
+  transition: transform 0.3s var(--ease), opacity 0.3s;
+}
+.nav-hamburger.open span:nth-child(1) { transform: translateY(6px) rotate(45deg); }
+.nav-hamburger.open span:nth-child(2) { opacity: 0; }
+.nav-hamburger.open span:nth-child(3) { transform: translateY(-6px) rotate(-45deg); }
+
+/* ─── MOBILE MENU ─── */
+#mobileMenu {
+  position: fixed;
+  inset: 0;
+  z-index: 200;
+  background: rgba(9,16,10,0.97);
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 2rem;
+}
+#mobileMenu[hidden] { display: none; }
+#mobileMenu nav { display: flex; flex-direction: column; align-items: center; gap: 2rem; }
+#mobileMenu nav a {
+  font-family: var(--font-d);
+  font-size: clamp(1.8rem, 8vw, 3rem);
+  font-weight: 300;
+  letter-spacing: 0.05em;
+  color: var(--text);
+  transition: color 0.2s;
+}
+#mobileMenu nav a:hover { color: var(--accent); }
+.mobile-menu-close {
+  position: absolute;
+  top: 1.5rem;
+  right: 1.5rem;
+  background: none;
+  border: none;
+  color: var(--muted);
+  font-size: 2rem;
+  cursor: pointer;
+  width: 44px;
+  height: 44px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: color 0.2s;
+}
+.mobile-menu-close:hover { color: var(--text); }
+
+/* ─── MOBILE ─── */
+@media (max-width: 900px) {
+  nav { padding: 1.2rem 1.5rem; }
+  nav.scrolled { padding: 0.9rem 1.5rem; }
+  .nav-links { display: none; }
+  .nav-hamburger { display: flex; }
+  .nav-cta { display: none; }
+  section { padding: 5rem 1.5rem; }
+  #piatti { padding: 5rem 0 5rem 1.5rem; }
+  #piatti .section-header { padding-right: 1.5rem; }
+  .dishes-rail { padding-right: 1.5rem; }
+  .dish-card { flex: 0 0 280px; }
+  #prenota { grid-template-columns: 1fr; gap: 3rem; padding: 5rem 1.5rem; }
+  .booking-form { grid-template-columns: 1fr; }
+  .gallery-grid { column-count: 2; }
+  .contatti-grid { grid-template-columns: 1fr; gap: 2.5rem; }
+  #contatti { padding: 5rem 1.5rem; }
+  footer { flex-direction: column; gap: 1rem; text-align: center; }
+}
+@media (max-width: 500px) {
+  .gallery-grid { column-count: 1; }
+  .hero-title { font-size: clamp(2.8rem, 14vw, 5rem); }
+}
+</style>
+</head>
+<body>
+
+<a href="#piatti" class="skip-link">Vai al contenuto</a>
+
+<!-- NAV -->
+<nav id="nav" aria-label="Navigazione principale">
+  <a href="#" class="nav-brand">Serrago<span>.</span></a>
+  <ul class="nav-links">
+    <li><a href="#piatti">Il Menu</a></li>
+    <li><a href="#galleria">Galleria</a></li>
+    <li><a href="#prenota">Prenota</a></li>
+    <li><a href="#contatti">Contatti</a></li>
+  </ul>
+  <a href="#prenota" class="nav-cta">Prenota un tavolo</a>
+  <button class="nav-hamburger" id="navHamburger" aria-label="Apri menu" aria-expanded="false" aria-controls="mobileMenu">
+    <span></span><span></span><span></span>
+  </button>
+</nav>
+
+<!-- MOBILE MENU -->
+<div id="mobileMenu" role="dialog" aria-label="Menu di navigazione" aria-modal="true" hidden>
+  <button class="mobile-menu-close" id="mobileMenuClose" aria-label="Chiudi menu">&times;</button>
+  <nav aria-label="Menu mobile">
+    <a href="#piatti" onclick="closeMobileMenu()">Il Menu</a>
+    <a href="#galleria" onclick="closeMobileMenu()">Galleria</a>
+    <a href="#recensioni" onclick="closeMobileMenu()">Recensioni</a>
+    <a href="#prenota" onclick="closeMobileMenu()">Prenota</a>
+    <a href="#contatti" onclick="closeMobileMenu()">Contatti</a>
+  </nav>
+</div>
+
+<!-- HERO -->
+<section id="hero">
+  <video class="hero-video" autoplay muted loop playsinline poster="img/dish_019_L34_2023-09-09_main.jpg" aria-hidden="true">
+    <source src="img/hero_reel.mp4" type="video/mp4">
+    <source src="img/hero_01.mp4" type="video/mp4">
+  </video>
+  <div class="hero-overlay"></div>
+  <div class="hero-content">
+    <p class="hero-eyebrow" id="he">Praia a Mare · Calabria</p>
+    <h1 class="hero-title" id="ht">Ristorante<br>Serrago</h1>
+    <p class="hero-sub" id="hs">Tradizione e Innovazione</p>
+    <a href="#prenota" class="hero-cta" id="hc">Prenota un tavolo</a>
+  </div>
+  <div class="hero-scroll" aria-hidden="true">
+    <div class="hero-scroll-line"></div>
+  </div>
+</section>
+
+<!-- MANIFESTO -->
+<section id="manifesto">
+  <blockquote class="manifesto-quote reveal">
+    "Ogni piatto nasce dal rispetto per il mare e la terra di Calabria.
+    La tradizione è la nostra radice — l'innovazione, il nostro linguaggio."
+  </blockquote>
+  <p class="manifesto-attr reveal reveal-delay-2">— Ristorante Serrago, Praia a Mare</p>
+</section>
+
+<!-- PIATTI -->
+<section id="piatti">
+  <div class="section-header reveal">
+    <div>
+      <p class="section-label">Il nostro menu</p>
+      <h2 class="section-title">I Piatti<br><em>della Casa</em></h2>
+    </div>
+  </div>
+  <div class="dishes-rail" id="dishRail">
+
+    <div class="dish-card">
+      <div class="dish-card-img">
+        <img src="img/dish_019_L34_2023-09-09_main.jpg" alt="Crudités di mare">
+      </div>
+      <div class="dish-card-body">
+        <p class="dish-tag">Antipasto · Crudo</p>
+        <h3 class="dish-name">Crudités di Mare</h3>
+        <p class="dish-desc">Selezione di ostriche, cozze, gamberi rossi e carpaccio di pesce locale. Il mare nel piatto.</p>
+      </div>
+    </div>
+
+    <div class="dish-card">
+      <div class="dish-card-img">
+        <img src="img/dish_014_L39_2023-08-02_main.jpg" alt="Tataki di tonno">
+      </div>
+      <div class="dish-card-body">
+        <p class="dish-tag">Secondo · Pesce</p>
+        <h3 class="dish-name">Tataki di Tonno</h3>
+        <p class="dish-desc">Tonno rosso del Mediterraneo scottato in padella, salsa agrumata e olio evo calabrese.</p>
+      </div>
+    </div>
+
+    <div class="dish-card">
+      <div class="dish-card-img">
+        <img src="img/dish_018_L34_2023-09-09_side.jpg" alt="Risotto all'astice">
+      </div>
+      <div class="dish-card-body">
+        <p class="dish-tag">Primo · Riso</p>
+        <h3 class="dish-name">Risotto all'Astice</h3>
+        <p class="dish-desc">Riso Carnaroli mantecato con bisque d'astice, astice fresco e riduzione di limone di Calabria.</p>
+      </div>
+    </div>
+
+    <div class="dish-card">
+      <div class="dish-card-img">
+        <img src="img/dish_016_L39_2023-08-02_side.jpg" alt="Gran piatto di crudo">
+      </div>
+      <div class="dish-card-body">
+        <p class="dish-tag">Antipasto · Selezione</p>
+        <h3 class="dish-name">Gran Crudo</h3>
+        <p class="dish-desc">Carpaccio di ricciola, gamberi, scampi e tartare di tonno con condimenti della tradizione.</p>
+      </div>
+    </div>
+
+    <div class="dish-card">
+      <div class="dish-card-img">
+        <img src="img/dish_027_L33_2023-08-04_side.jpg" alt="Pesce con funghi">
+      </div>
+      <div class="dish-card-body">
+        <p class="dish-tag">Secondo · Terra e Mare</p>
+        <h3 class="dish-name">Pagello ai Funghi</h3>
+        <p class="dish-desc">Pagello fresco su crema allo zafferano, funghi porcini e pinoli tostati.</p>
+      </div>
+    </div>
+
+    <div class="dish-card">
+      <div class="dish-card-img">
+        <img src="img/dish_021_L34_2022-06-20_side.jpg" alt="Spaghetti alle vongole">
+      </div>
+      <div class="dish-card-body">
+        <p class="dish-tag">Primo · Pasta</p>
+        <h3 class="dish-name">Spaghetti alle Cozze</h3>
+        <p class="dish-desc">Pasta artigianale con cozze di Taranto, pomodorini di Calabria e bottarga di muggine.</p>
+      </div>
+    </div>
+
+    <div class="dish-card">
+      <div class="dish-card-img">
+        <img src="img/dish_030_L33_2023-08-04_side.jpg" alt="Dessert al cioccolato">
+      </div>
+      <div class="dish-card-body">
+        <p class="dish-tag">Dolce</p>
+        <h3 class="dish-name">Fondente di Calabria</h3>
+        <p class="dish-desc">Cremoso al cioccolato fondente 80%, sorbetto al bergamotto e crumble al cacao.</p>
+      </div>
+    </div>
+
+  </div>
+</section>
+
+<!-- VIDEO PARALLAX -->
+<div id="video-section" role="region" aria-label="Video del ristorante">
+  <video autoplay muted loop playsinline aria-hidden="true">
+    <source src="img/hero_03.mp4" type="video/mp4">
+  </video>
+  <div class="video-text reveal">
+    <h2>"Il mare è<br>la nostra cucina"</h2>
+    <p>Praia a Mare · Calabria · Dal Mare alla Tavola</p>
+  </div>
+</div>
+
+<!-- GALLERIA -->
+<section id="galleria">
+  <p class="section-label reveal">La nostra cucina</p>
+  <h2 class="section-title reveal reveal-delay-1">Galleria</h2>
+  <div class="gallery-grid">
+    <div class="gallery-item reveal" role="button" tabindex="0" onclick="openLightbox(this)" onkeydown="if(event.key==='Enter'||event.key===' ')openLightbox(this)">
+      <img src="img/dish_017_L34_2023-09-09_side.jpg" alt="Pesce fresco in cucina" loading="lazy">
+    </div>
+    <div class="gallery-item reveal reveal-delay-1" role="button" tabindex="0" onclick="openLightbox(this)" onkeydown="if(event.key==='Enter'||event.key===' ')openLightbox(this)">
+      <img src="img/dish_003_L53_2023-08-13_side.jpg" alt="Preparazione polpo" loading="lazy">
+    </div>
+    <div class="gallery-item reveal reveal-delay-2" role="button" tabindex="0" onclick="openLightbox(this)" onkeydown="if(event.key==='Enter'||event.key===' ')openLightbox(this)">
+      <img src="img/dish_019_L34_2023-09-09_main.jpg" alt="Crudités di mare" loading="lazy">
+    </div>
+    <div class="gallery-item reveal" role="button" tabindex="0" onclick="openLightbox(this)" onkeydown="if(event.key==='Enter'||event.key===' ')openLightbox(this)">
+      <img src="img/dish_014_L39_2023-08-02_main.jpg" alt="Tataki di tonno" loading="lazy">
+    </div>
+    <div class="gallery-item reveal reveal-delay-1" role="button" tabindex="0" onclick="openLightbox(this)" onkeydown="if(event.key==='Enter'||event.key===' ')openLightbox(this)">
+      <img src="img/dish_018_L34_2023-09-09_side.jpg" alt="Risotto all'astice" loading="lazy">
+    </div>
+    <div class="gallery-item reveal reveal-delay-2" role="button" tabindex="0" onclick="openLightbox(this)" onkeydown="if(event.key==='Enter'||event.key===' ')openLightbox(this)">
+      <img src="img/dish_016_L39_2023-08-02_side.jpg" alt="Gran crudo di mare" loading="lazy">
+    </div>
+    <div class="gallery-item reveal" role="button" tabindex="0" onclick="openLightbox(this)" onkeydown="if(event.key==='Enter'||event.key===' ')openLightbox(this)">
+      <img src="img/dish_013_L39_2023-08-02_side.jpg" alt="Frittura di paranza" loading="lazy">
+    </div>
+    <div class="gallery-item reveal reveal-delay-1" role="button" tabindex="0" onclick="openLightbox(this)" onkeydown="if(event.key==='Enter'||event.key===' ')openLightbox(this)">
+      <img src="img/dish_027_L33_2023-08-04_side.jpg" alt="Pagello ai funghi" loading="lazy">
+    </div>
+    <div class="gallery-item reveal reveal-delay-2" role="button" tabindex="0" onclick="openLightbox(this)" onkeydown="if(event.key==='Enter'||event.key===' ')openLightbox(this)">
+      <img src="img/dish_022_L34_2022-06-20_main.jpg" alt="Antipasto misto" loading="lazy">
+    </div>
+    <div class="gallery-item reveal" role="button" tabindex="0" onclick="openLightbox(this)" onkeydown="if(event.key==='Enter'||event.key===' ')openLightbox(this)">
+      <img src="img/dish_021_L34_2022-06-20_side.jpg" alt="Spaghetti alle cozze" loading="lazy">
+    </div>
+    <div class="gallery-item reveal reveal-delay-1" role="button" tabindex="0" onclick="openLightbox(this)" onkeydown="if(event.key==='Enter'||event.key===' ')openLightbox(this)">
+      <img src="img/dish_030_L33_2023-08-04_side.jpg" alt="Dessert al cioccolato" loading="lazy">
+    </div>
+    <div class="gallery-item reveal reveal-delay-2" role="button" tabindex="0" onclick="openLightbox(this)" onkeydown="if(event.key==='Enter'||event.key===' ')openLightbox(this)">
+      <img src="img/dish_023_L34_2022-06-20_side.jpg" alt="Piatto del giorno" loading="lazy">
+    </div>
+  </div>
+</section>
+
+<!-- LIGHTBOX -->
+<div id="lightbox">
+  <button id="lightbox-close" onclick="closeLightbox()" aria-label="Chiudi">&times;</button>
+  <img id="lightbox-img" src="" alt="">
+</div>
+
+<!-- RECENSIONI -->
+<section id="recensioni" style="background:var(--bg2);">
+  <p class="section-label reveal">Cosa dicono di noi</p>
+  <h2 class="section-title reveal reveal-delay-1">Recensioni</h2>
+  <div style="display:flex;align-items:center;gap:1rem;margin-top:1rem;" class="reveal reveal-delay-2">
+    <div style="display:flex;gap:4px;">
+      <svg width="20" height="20" viewBox="0 0 24 24" fill="#B8965A"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
+      <svg width="20" height="20" viewBox="0 0 24 24" fill="#B8965A"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
+      <svg width="20" height="20" viewBox="0 0 24 24" fill="#B8965A"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
+      <svg width="20" height="20" viewBox="0 0 24 24" fill="#B8965A"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
+      <svg width="20" height="20" viewBox="0 0 24 24" fill="#B8965A"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
+    </div>
+    <span style="font-family:var(--font-d);font-size:1.1rem;color:var(--text);">4.7 / 5</span>
+    <span style="font-size:0.72rem;letter-spacing:0.12em;color:var(--muted);text-transform:uppercase;">· TripAdvisor · #8 di 78 ristoranti a Praia a Mare</span>
+  </div>
+
+  <div class="review-rail" id="reviewRail">
+
+    <div class="review-card reveal">
+      <div class="review-stars">★★★★★</div>
+      <blockquote class="review-text">"La qualità delle materie prime è la vera forza: il pesce è fresco e lavorato con grande rispetto, esaltando i sapori senza eccessi."</blockquote>
+      <div class="review-author">
+        <span class="review-name">Ambra T.</span>
+        <span class="review-date">Maggio 2026</span>
+      </div>
+    </div>
+
+    <div class="review-card reveal reveal-delay-1">
+      <div class="review-stars">★★★★★</div>
+      <blockquote class="review-text">"Lo chef utilizza materie prime fresche e propone ricette tradizionali locali interpretate in modo innovativo. Davvero eccellente!"</blockquote>
+      <div class="review-author">
+        <span class="review-name">Alessandra Z.</span>
+        <span class="review-date">Luglio 2025</span>
+      </div>
+    </div>
+
+    <div class="review-card reveal reveal-delay-2">
+      <div class="review-stars">★★★★★</div>
+      <blockquote class="review-text">"Finalmente una cucina coraggiosa, elegante e innovativa. Ogni boccone è un'esperienza unica, da gustare con calma per scoprire ogni sfumatura."</blockquote>
+      <div class="review-author">
+        <span class="review-name">Marta</span>
+        <span class="review-date">Luglio 2025</span>
+      </div>
+    </div>
+
+    <div class="review-card reveal reveal-delay-3">
+      <div class="review-stars">★★★★★</div>
+      <blockquote class="review-text">"La vera forza è la qualità del pesce: fresco, cucinato con semplicità e maestria, esaltando i sapori autentici del mare."</blockquote>
+      <div class="review-author">
+        <span class="review-name">Martina A.</span>
+        <span class="review-date">Maggio 2025</span>
+      </div>
+    </div>
+
+    <div class="review-card reveal">
+      <div class="review-stars">★★★★★</div>
+      <blockquote class="review-text">"Un piccolo ristorante che conferma sempre le sue caratteristiche: cura, passione per il mestiere e ottimo cibo!"</blockquote>
+      <div class="review-author">
+        <span class="review-name">Daniele G.</span>
+        <span class="review-date">Marzo 2026</span>
+      </div>
+    </div>
+
+    <div class="review-card reveal reveal-delay-1">
+      <div class="review-stars">★★★★★</div>
+      <blockquote class="review-text">"L'innovazione di Giuseppe e dei suoi collaboratori combina bontà con abilità e tradizione con innovazione — rarissimo trovarlo così bene in equilibrio!"</blockquote>
+      <div class="review-author">
+        <span class="review-name">Esteban</span>
+        <span class="review-date">Settembre 2023</span>
+      </div>
+    </div>
+
+    <div class="review-card reveal reveal-delay-2">
+      <div class="review-stars">★★★★</div>
+      <blockquote class="review-text">"Cucina innovativa che propone piatti interessanti. Servizio cortese e personale preparato. Consigliato tra i tanti locali turistici della zona."</blockquote>
+      <div class="review-author">
+        <span class="review-name">Vincenzo</span>
+        <span class="review-date">2024</span>
+      </div>
+    </div>
+
+  </div>
+
+  <div style="text-align:center;margin-top:2.5rem;" class="reveal">
+    <a href="https://www.tripadvisor.com/Restaurant_Review-g194866-d24173968-Reviews-Ristorante_Serrago_Tradizioneinnovazione-Praia_A_Mare_Province_of_Cosenza_Calabr.html" target="_blank" style="font-size:0.72rem;letter-spacing:0.18em;text-transform:uppercase;color:var(--muted);border-bottom:1px solid var(--border);padding-bottom:2px;transition:color 0.2s;">Leggi tutte le recensioni su TripAdvisor →</a>
+  </div>
+</section>
+
+<!-- PRENOTA -->
+<section id="prenota">
+  <div class="prenota-info reveal">
+    <p class="section-label">Riserva il tuo tavolo</p>
+    <h2 class="section-title">Prenota<br><em>una Serata</em></h2>
+    <p style="margin-top:1.5rem;">Ogni serata da Serrago è un'esperienza unica. Riserva il tuo tavolo e lasciati sorprendere dai sapori del Mediterraneo.</p>
+    <p style="margin-top:1rem;">Per prenotazioni di gruppo o eventi privati, contattaci direttamente.</p>
+  </div>
+  <div class="reveal reveal-delay-2">
+    <form class="booking-form" id="bookingForm" onsubmit="submitBooking(event)">
+      <div class="field">
+        <label for="fname">Nome e Cognome</label>
+        <input type="text" id="fname" placeholder="Mario Rossi" required>
+      </div>
+      <div class="field">
+        <label for="fphone">Telefono</label>
+        <input type="tel" id="fphone" placeholder="+39 333 000 0000">
+      </div>
+      <div class="field">
+        <label for="fdate">Data</label>
+        <input type="date" id="fdate" required>
+      </div>
+      <div class="field">
+        <label for="ftime">Ora</label>
+        <select id="ftime">
+          <option value="19:00">19:00</option>
+          <option value="19:30">19:30</option>
+          <option value="20:00" selected>20:00</option>
+          <option value="20:30">20:30</option>
+          <option value="21:00">21:00</option>
+          <option value="21:30">21:30</option>
+          <option value="22:00">22:00</option>
+        </select>
+      </div>
+      <div class="field">
+        <label for="fguests">Numero di persone</label>
+        <select id="fguests">
+          <option>1</option><option>2</option><option selected>3</option>
+          <option>4</option><option>5</option><option>6</option>
+          <option>7</option><option>8+</option>
+        </select>
+      </div>
+      <div class="field">
+        <label for="focc">Occasione speciale</label>
+        <input type="text" id="focc" placeholder="Compleanno, anniversario...">
+      </div>
+      <div class="field full">
+        <label for="fnote">Note aggiuntive</label>
+        <textarea id="fnote" placeholder="Allergie, preferenze, richieste speciali..."></textarea>
+      </div>
+      <button type="submit" class="book-btn">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+          <path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/>
+        </svg>
+        Prenota via WhatsApp
+      </button>
+    </form>
+  </div>
+</section>
+
+<!-- CONTATTI -->
+<section id="contatti">
+  <p class="section-label reveal">Vieni a trovarci</p>
+  <h2 class="section-title reveal reveal-delay-1">Dove Siamo</h2>
+  <div class="contatti-grid">
+    <div class="contatti-block reveal reveal-delay-1">
+      <h3>Indirizzo</h3>
+      <p>Via della Grotta, 15/17<br>87028 Praia a Mare (CS)<br>Calabria, Italia</p>
+      <a href="https://maps.google.com/?q=Ristorante+Serrago+Tradizioneinnovazione+Praia+a+Mare" target="_blank" style="margin-top:0.8rem;color:var(--accent);">Apri in Maps →</a>
+    </div>
+    <div class="contatti-block reveal reveal-delay-2">
+      <h3>Orari</h3>
+      <p>
+        Domenica: 12:00 – 14:30 · 19:30 – 23:30<br>
+        Lun, Mar, Gio – Sab: 19:30 – 23:30<br>
+        Mercoledì: chiuso
+      </p>
+    </div>
+    <div class="contatti-block reveal reveal-delay-3">
+      <h3>Contatti</h3>
+      <a href="tel:+393802384386">+39 380 238 4386</a>
+      <div class="social-row">
+        <a class="social-btn" href="https://instagram.com/ristoranteserrago" target="_blank">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2" y="2" width="20" height="20" rx="5" ry="5"/><circle cx="12" cy="12" r="4"/><circle cx="17.5" cy="6.5" r="1" fill="currentColor" stroke="none"/></svg>
+          Instagram
+        </a>
+        <a class="social-btn" href="https://tiktok.com" target="_blank">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor"><path d="M19.59 6.69a4.83 4.83 0 01-3.77-4.25V2h-3.45v13.67a2.89 2.89 0 01-2.88 2.5 2.89 2.89 0 01-2.89-2.89 2.89 2.89 0 012.89-2.89c.28 0 .54.04.79.1V9.01a6.33 6.33 0 00-.79-.05 6.34 6.34 0 00-6.34 6.34 6.34 6.34 0 006.34 6.34 6.34 6.34 0 006.33-6.34V8.69a8.18 8.18 0 004.77 1.52V6.76a4.85 4.85 0 01-1-.07z"/></svg>
+          TikTok
+        </a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer>
+  <p>© 2026 Ristorante Serrago · Praia a Mare, Calabria</p>
+  <p style="font-style:italic;font-family:var(--font-d);">Tradizione e Innovazione</p>
+</footer>
+
+<script>
+// ─── MOBILE MENU ───
+const hamburger = document.getElementById('navHamburger');
+const mobileMenu = document.getElementById('mobileMenu');
+const mobileClose = document.getElementById('mobileMenuClose');
+
+function openMobileMenu() {
+  mobileMenu.hidden = false;
+  hamburger.classList.add('open');
+  hamburger.setAttribute('aria-expanded', 'true');
+  document.body.style.overflow = 'hidden';
+  mobileClose.focus();
+}
+function closeMobileMenu() {
+  mobileMenu.hidden = true;
+  hamburger.classList.remove('open');
+  hamburger.setAttribute('aria-expanded', 'false');
+  document.body.style.overflow = '';
+  hamburger.focus();
+}
+hamburger.addEventListener('click', openMobileMenu);
+mobileClose.addEventListener('click', closeMobileMenu);
+document.addEventListener('keydown', e => { if (e.key === 'Escape' && !mobileMenu.hidden) closeMobileMenu(); });
+
+// ─── NAV GLASS ON SCROLL ───
+const nav = document.getElementById('nav');
+window.addEventListener('scroll', () => {
+  nav.classList.toggle('scrolled', window.scrollY > 60);
+}, { passive: true });
+
+// ─── HERO ENTRANCE ───
+window.addEventListener('load', () => {
+  const noMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  const ids = ['he','ht','hs','hc'];
+  if (noMotion) {
+    ids.forEach(id => document.getElementById(id).style.cssText = 'opacity:1;transform:none;transition:none');
+  } else {
+    setTimeout(() => {
+      ids.forEach(id => document.getElementById(id).style.cssText = 'opacity:1;transform:none');
+    }, 200);
+  }
+});
+
+// ─── INTERSECTION OBSERVER FOR REVEALS ───
+const revealObserver = new IntersectionObserver((entries) => {
+  entries.forEach(e => {
+    if (e.isIntersecting) {
+      e.target.classList.add('visible');
+      revealObserver.unobserve(e.target);
+    }
+  });
+}, { threshold: 0.12, rootMargin: '0px 0px -40px 0px' });
+
+document.querySelectorAll('.reveal').forEach(el => revealObserver.observe(el));
+
+// ─── DRAG SCROLL RAIL ───
+const rail = document.getElementById('dishRail');
+let isDragging = false, startX, scrollLeft;
+rail.addEventListener('mousedown', e => {
+  isDragging = true;
+  startX = e.pageX - rail.offsetLeft;
+  scrollLeft = rail.scrollLeft;
+  rail.style.cursor = 'grabbing';
+});
+rail.addEventListener('mouseleave', () => { isDragging = false; rail.style.cursor = 'grab'; });
+rail.addEventListener('mouseup',    () => { isDragging = false; rail.style.cursor = 'grab'; });
+rail.addEventListener('mousemove', e => {
+  if (!isDragging) return;
+  e.preventDefault();
+  const x = e.pageX - rail.offsetLeft;
+  rail.scrollLeft = scrollLeft - (x - startX) * 1.4;
+});
+
+// ─── DRAG SCROLL: reviews rail ───
+const rrail = document.getElementById('reviewRail');
+let rDrag = false, rStartX, rScrollLeft;
+rrail.addEventListener('mousedown', e => { rDrag = true; rStartX = e.pageX - rrail.offsetLeft; rScrollLeft = rrail.scrollLeft; rrail.style.cursor = 'grabbing'; });
+rrail.addEventListener('mouseleave', () => { rDrag = false; rrail.style.cursor = 'grab'; });
+rrail.addEventListener('mouseup',    () => { rDrag = false; rrail.style.cursor = 'grab'; });
+rrail.addEventListener('mousemove',  e => { if (!rDrag) return; e.preventDefault(); rrail.scrollLeft = rScrollLeft - (e.pageX - rrail.offsetLeft - rStartX) * 1.4; });
+
+// ─── LIGHTBOX ───
+let _lightboxOpener = null;
+function openLightbox(el) {
+  const img = el.querySelector('img');
+  document.getElementById('lightbox-img').src = img.src;
+  document.getElementById('lightbox-img').alt = img.alt;
+  document.getElementById('lightbox').classList.add('open');
+  document.body.style.overflow = 'hidden';
+  _lightboxOpener = document.activeElement;
+  document.getElementById('lightbox-close').focus();
+}
+function closeLightbox() {
+  document.getElementById('lightbox').classList.remove('open');
+  document.body.style.overflow = '';
+  if (_lightboxOpener) { _lightboxOpener.focus(); _lightboxOpener = null; }
+}
+document.getElementById('lightbox').addEventListener('click', e => {
+  if (e.target === document.getElementById('lightbox')) closeLightbox();
+});
+document.addEventListener('keydown', e => { if (e.key === 'Escape') closeLightbox(); });
+
+// ─── WHATSAPP BOOKING ───
+function submitBooking(e) {
+  e.preventDefault();
+  const name   = document.getElementById('fname').value.trim();
+  const phone  = document.getElementById('fphone').value.trim();
+  const date   = document.getElementById('fdate').value;
+  const time   = document.getElementById('ftime').value;
+  const guests = document.getElementById('fguests').value;
+  const occ    = document.getElementById('focc').value.trim();
+  const note   = document.getElementById('fnote').value.trim();
+
+  if (!name || !date) {
+    document.getElementById('fname').style.borderColor = '#B8965A';
+    return;
+  }
+
+  let msg = `Prenotazione — Ristorante Serrago\n`;
+  msg += `Nome: ${name}\n`;
+  if (phone) msg += `Tel: ${phone}\n`;
+  msg += `Data: ${date} alle ${time}\n`;
+  msg += `Ospiti: ${guests}\n`;
+  if (occ)  msg += `Occasione: ${occ}\n`;
+  if (note) msg += `Note: ${note}`;
+
+  window.open(`https://wa.me/393802384386?text=${encodeURIComponent(msg)}`, '_blank');
+}
+
+// Reset field errors on input
+document.getElementById('fname').addEventListener('input', function() {
+  this.style.borderColor = '';
+});
+</script>
+</body>
+</html>
