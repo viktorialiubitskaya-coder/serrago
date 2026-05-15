@@ -22,11 +22,11 @@
   --font-b:       'Raleway', sans-serif;
   --ease:         cubic-bezier(0.25, 0.46, 0.45, 0.94);
   /* overlay tokens — avoid scattered rgba literals */
-  --ov-hero-top:    rgba(9,16,10,0.55);
-  --ov-hero-mid:    rgba(9,16,10,0.45);
-  --ov-hero-btm:    rgba(9,16,10,0.75);
-  --ov-hero-base:   rgba(9,16,10,0.97);
-  --ov-video:       rgba(9,16,10,0.62);
+  --ov-hero-top:    rgba(9,16,10,0.20);
+  --ov-hero-mid:    rgba(9,16,10,0.10);
+  --ov-hero-btm:    rgba(9,16,10,0.55);
+  --ov-hero-base:   rgba(9,16,10,0.95);
+  --ov-video:       rgba(9,16,10,0.40);
   --ov-lb:          rgba(9,16,10,0.96);
 }
 
@@ -150,7 +150,7 @@ nav.scrolled {
   height: 100%;
   object-fit: cover;
   object-position: center;
-  opacity: 0.5;
+  opacity: 0.85;
 }
 .hero-overlay {
   position: absolute;
@@ -374,7 +374,7 @@ section { padding: 7rem 3rem; }
   width: 100%;
   height: 100%;
   object-fit: cover;
-  opacity: 0.4;
+  opacity: 0.65;
 }
 #video-section::before {
   content: '';
@@ -796,7 +796,7 @@ footer p {
 
 <!-- HERO -->
 <section id="hero">
-  <video class="hero-video" autoplay muted loop playsinline aria-hidden="true">
+  <video class="hero-video" id="heroVid" autoplay muted loop playsinline poster="img/dish_014_L39_2023-08-02_main.jpg" aria-hidden="true">
     <source src="img/hero_bg.mp4" type="video/mp4">
   </video>
   <div class="hero-overlay"></div>
@@ -1161,6 +1161,19 @@ footer p {
 </footer>
 
 <script>
+// ─── HERO VIDEO: graceful fallback for Low Power Mode ───
+(function() {
+  const v = document.getElementById('heroVid');
+  if (!v) return;
+  const p = v.play();
+  if (p !== undefined) {
+    p.catch(() => {
+      // autoplay blocked (Low Power Mode) — poster image stays visible, looks fine
+      v.style.opacity = '0.85';
+    });
+  }
+})();
+
 // ─── MOBILE MENU ───
 const hamburger = document.getElementById('navHamburger');
 const mobileMenu = document.getElementById('mobileMenu');
