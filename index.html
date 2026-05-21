@@ -4,6 +4,7 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Ristorante Serrago — Tradizione e Innovazione · Praia a Mare</title>
+<meta name="description" content="Ristorante Serrago a Praia a Mare. Cucina mediterranea contemporanea dello chef Giuseppe. Pesce fresco, tradizione calabrese, innovazione. Prenotazioni: +39 380 238 4386.">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;1,300;1,400;1,500&family=Raleway:wght@300;400;500;600&display=swap" rel="stylesheet">
@@ -21,7 +22,6 @@
   --font-d:       'Cormorant Garamond', Georgia, serif;
   --font-b:       'Raleway', sans-serif;
   --ease:         cubic-bezier(0.25, 0.46, 0.45, 0.94);
-  /* overlay tokens — avoid scattered rgba literals */
   --ov-hero-top:    rgba(9,16,10,0.20);
   --ov-hero-mid:    rgba(9,16,10,0.10);
   --ov-hero-btm:    rgba(9,16,10,0.55);
@@ -41,7 +41,8 @@ body {
   overflow-x: hidden;
   -webkit-font-smoothing: antialiased;
 }
-img { display: block; width: 100%; }
+img, picture { display: block; width: 100%; }
+picture img { width: 100%; height: 100%; object-fit: cover; }
 a  { color: inherit; text-decoration: none; }
 
 /* ─── SKIP LINK ─── */
@@ -68,7 +69,7 @@ a  { color: inherit; text-decoration: none; }
   outline-offset: 3px;
 }
 
-/* ─── GRAIN TEXTURE — breaks flat AI aesthetic ─── */
+/* ─── GRAIN TEXTURE ─── */
 body::after {
   content: '';
   position: fixed;
@@ -84,7 +85,7 @@ nav {
   position: fixed;
   top: 0; left: 0; right: 0;
   z-index: 100;
-  padding: 1.5rem 3rem;
+  padding: 1.2rem 3rem;
   display: flex;
   align-items: center;
   justify-content: space-between;
@@ -94,109 +95,175 @@ nav.scrolled {
   background: rgba(9, 16, 10, 0.88);
   backdrop-filter: blur(18px);
   -webkit-backdrop-filter: blur(18px);
-  padding: 1rem 3rem;
+  padding: 0.8rem 3rem;
   border-bottom: 1px solid var(--border);
 }
 .nav-brand {
-  font-family: var(--font-d);
-  font-size: 1.25rem;
-  font-weight: 500;
-  letter-spacing: 0.18em;
-  text-transform: uppercase;
+  display: flex;
+  align-items: center;
+  gap: 0.8rem;
 }
-.nav-brand span { color: var(--accent); }
+.nav-logo {
+  height: 42px;
+  width: auto;
+  /* Make black logo into gold using filters */
+  filter: invert(64%) sepia(28%) saturate(648%) hue-rotate(7deg) brightness(92%) contrast(86%);
+  transition: filter 0.3s, height 0.3s;
+}
+nav.scrolled .nav-logo { height: 32px; }
 .nav-links {
   display: flex;
-  gap: 2.5rem;
-  list-style: none;
+  gap: 2.4rem;
 }
 .nav-links a {
   font-size: 0.75rem;
-  letter-spacing: 0.14em;
+  letter-spacing: 0.18em;
   text-transform: uppercase;
-  color: var(--muted);
-  transition: color 0.25s;
+  color: var(--text);
+  transition: color 0.2s;
 }
-.nav-links a:hover { color: var(--text); }
+.nav-links a:hover { color: var(--accent); }
 .nav-cta {
   font-size: 0.72rem;
-  letter-spacing: 0.14em;
+  letter-spacing: 0.18em;
   text-transform: uppercase;
   border: 1px solid var(--accent);
   color: var(--accent);
-  padding: 0.65rem 1.4rem;
-  min-height: 44px;
-  display: inline-flex;
-  align-items: center;
+  padding: 0.6rem 1.4rem;
   border-radius: 2px;
   transition: background 0.25s, color 0.25s;
 }
 .nav-cta:hover { background: var(--accent); color: var(--bg); }
 
-/* ─── HERO ─── */
-#hero {
-  position: relative;
-  height: 100dvh;
-  min-height: 600px;
-  overflow: hidden;
+/* ─── HAMBURGER ─── */
+.nav-hamburger {
+  display: none;
+  flex-direction: column;
+  justify-content: center;
+  gap: 5px;
+  background: none;
+  border: none;
+  cursor: pointer;
+  padding: 8px;
+  width: 44px;
+  height: 44px;
+}
+.nav-hamburger span {
+  display: block;
+  width: 22px;
+  height: 1px;
+  background: var(--text);
+  transition: transform 0.3s var(--ease), opacity 0.3s;
+}
+.nav-hamburger.open span:nth-child(1) { transform: translateY(6px) rotate(45deg); }
+.nav-hamburger.open span:nth-child(2) { opacity: 0; }
+.nav-hamburger.open span:nth-child(3) { transform: translateY(-6px) rotate(-45deg); }
+
+/* ─── MOBILE MENU ─── */
+#mobileMenu {
+  position: fixed;
+  inset: 0;
+  z-index: 200;
+  background: rgba(9,16,10,0.97);
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 2rem;
+}
+#mobileMenu[hidden] { display: none; }
+#mobileMenu nav { position: static; padding: 0; display: flex; flex-direction: column; align-items: center; gap: 2rem; background: none; border: none; }
+#mobileMenu nav a {
+  font-family: var(--font-d);
+  font-size: clamp(1.8rem, 8vw, 3rem);
+  font-weight: 300;
+  letter-spacing: 0.05em;
+  color: var(--text);
+  transition: color 0.2s;
+  text-transform: none;
+}
+#mobileMenu nav a:hover { color: var(--accent); }
+.mobile-menu-close {
+  position: absolute;
+  top: 1.5rem;
+  right: 1.5rem;
+  background: none;
+  border: none;
+  color: var(--muted);
+  font-size: 2rem;
+  cursor: pointer;
+  width: 44px;
+  height: 44px;
   display: flex;
   align-items: center;
   justify-content: center;
+  transition: color 0.2s;
 }
-.hero-video {
+.mobile-menu-close:hover { color: var(--text); }
+
+/* ─── HERO ─── */
+#hero {
+  position: relative;
+  height: 100vh;
+  min-height: 600px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  overflow: hidden;
+  text-align: center;
+}
+#hero video {
   position: absolute;
   inset: 0;
   width: 100%;
   height: 100%;
   object-fit: cover;
-  object-position: center;
-  opacity: 0.85;
+  z-index: 0;
 }
 .hero-overlay {
   position: absolute;
   inset: 0;
-  background: linear-gradient(
-    to bottom,
-    var(--ov-hero-top)  0%,
-    var(--ov-hero-mid)  40%,
-    var(--ov-hero-btm)  80%,
-    var(--ov-hero-base) 100%
-  );
+  z-index: 1;
+  background:
+    linear-gradient(180deg, var(--ov-hero-top) 0%, var(--ov-hero-mid) 35%, var(--ov-hero-btm) 75%, var(--ov-hero-base) 100%);
 }
 .hero-content {
   position: relative;
   z-index: 2;
-  text-align: center;
   padding: 0 2rem;
+  max-width: 900px;
 }
 .hero-eyebrow {
   font-size: 0.72rem;
-  letter-spacing: 0.3em;
+  letter-spacing: 0.32em;
   text-transform: uppercase;
   color: var(--accent);
-  margin-bottom: 1.5rem;
+  margin-bottom: 1.8rem;
   opacity: 0;
-  transform: translateY(16px);
-  transition: opacity 0.8s var(--ease), transform 0.8s var(--ease);
+  transform: translateY(12px);
+  transition: opacity 0.9s var(--ease), transform 0.9s var(--ease);
 }
 .hero-title {
   font-family: var(--font-d);
-  font-size: clamp(3.5rem, 9vw, 8rem);
+  font-size: clamp(3rem, 9vw, 7rem);
   font-weight: 300;
-  line-height: 0.95;
-  letter-spacing: -0.01em;
-  margin-bottom: 1.25rem;
+  line-height: 1.02;
+  letter-spacing: -0.02em;
+  color: var(--text);
+  margin-bottom: 1.5rem;
   opacity: 0;
-  transform: translateY(20px);
-  transition: opacity 1s 0.15s var(--ease), transform 1s 0.15s var(--ease);
+  transform: translateY(16px);
+  transition: opacity 0.9s 0.15s var(--ease), transform 0.9s 0.15s var(--ease);
 }
 .hero-sub {
   font-family: var(--font-d);
   font-style: italic;
-  font-size: clamp(1.1rem, 2.5vw, 1.6rem);
+  font-size: clamp(1.1rem, 2.2vw, 1.6rem);
   font-weight: 400;
-  color: var(--text);
-  letter-spacing: 0.06em;
+  color: var(--muted);
   margin-bottom: 2.8rem;
   opacity: 0;
   transform: translateY(16px);
@@ -211,12 +278,11 @@ nav.scrolled {
   color: var(--accent);
   padding: 0.9rem 2.5rem;
   border-radius: 2px;
-  transition: background 0.28s, color 0.28s, border-color 0.28s;
   opacity: 0;
   transform: translateY(12px);
   transition: opacity 0.8s 0.5s var(--ease), transform 0.8s 0.5s var(--ease), background 0.28s, color 0.28s;
 }
-.hero-cta:hover { background: var(--accent); color: var(--bg); border-color: var(--accent); }
+.hero-cta:hover { background: var(--accent); color: var(--bg); }
 .hero-scroll {
   position: absolute;
   bottom: 2.5rem;
@@ -288,7 +354,7 @@ section { padding: 7rem 3rem; }
   color: var(--accent);
 }
 
-/* ─── DISHES ─── */
+/* ─── PIATTI ─── */
 #piatti {
   background: var(--bg);
   padding: 7rem 0 7rem 3rem;
@@ -325,10 +391,9 @@ section { padding: 7rem 3rem; }
 .dish-card:hover {
   transform: translateY(-6px);
   border-color: rgba(184,150,90,0.4);
-  will-change: transform;
 }
 .dish-card-img {
-  height: 240px;
+  height: 280px;
   overflow: hidden;
 }
 .dish-card-img img {
@@ -359,120 +424,230 @@ section { padding: 7rem 3rem; }
   line-height: 1.7;
 }
 
-/* ─── VIDEO PARALLAX ─── */
-#video-section {
-  position: relative;
-  height: 70vh;
-  overflow: hidden;
-  display: flex;
-  align-items: center;
-  justify-content: center;
+/* ─── LO CHEF ─── */
+#lochef {
+  background: var(--bg2);
+  padding: 9rem 3rem;
 }
-#video-section video {
+.lochef-grid {
+  display: grid;
+  grid-template-columns: 1.1fr 1fr;
+  gap: 4rem;
+  align-items: center;
+  max-width: 1400px;
+  margin: 0 auto;
+}
+.lochef-img-main {
+  position: relative;
+  aspect-ratio: 4/5;
+  overflow: hidden;
+  border-radius: 2px;
+}
+.lochef-img-main img {
+  height: 100%;
+  object-fit: cover;
+  filter: contrast(1.02);
+}
+.lochef-text {
+  padding-left: 1rem;
+}
+.lochef-text h2 {
+  margin: 0.8rem 0 1.8rem;
+}
+.lochef-text p {
+  font-size: 0.95rem;
+  color: var(--muted);
+  line-height: 1.85;
+  margin-bottom: 1.2rem;
+  max-width: 480px;
+}
+.lochef-text p:first-of-type::first-letter {
+  font-family: var(--font-d);
+  font-size: 3rem;
+  font-weight: 400;
+  color: var(--accent);
+  float: left;
+  line-height: 0.9;
+  margin: 0.1rem 0.5rem 0 0;
+}
+.lochef-side-row {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 1.2rem;
+  margin-top: 4rem;
+  max-width: 1400px;
+  margin-left: auto;
+  margin-right: auto;
+}
+.lochef-side-row > div {
+  aspect-ratio: 4/3;
+  overflow: hidden;
+  border-radius: 2px;
+}
+.lochef-side-row img {
+  height: 100%;
+  object-fit: cover;
+}
+
+/* ─── CHEF'S TABLE PARALLAX ─── */
+#chefs-table {
+  position: relative;
+  height: 75vh;
+  min-height: 500px;
+  overflow: hidden;
+}
+#chefs-table img {
   position: absolute;
   inset: 0;
   width: 100%;
   height: 100%;
   object-fit: cover;
-  opacity: 0.65;
+  object-position: center;
 }
-#video-section::before {
-  content: '';
+.chefs-table-overlay {
   position: absolute;
   inset: 0;
-  background: var(--ov-video);
-  z-index: 1;
-}
-.video-text {
-  position: relative;
   z-index: 2;
+  background:
+    linear-gradient(180deg, rgba(9,16,10,0.55) 0%, rgba(9,16,10,0.25) 40%, rgba(9,16,10,0.65) 100%);
+}
+.chefs-table-text {
+  position: absolute;
+  inset: 0;
+  z-index: 3;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
   text-align: center;
   padding: 0 2rem;
 }
-.video-text h2 {
+.chefs-table-text h2 {
   font-family: var(--font-d);
   font-style: italic;
-  font-size: clamp(2rem, 6vw, 5rem);
+  font-size: clamp(2rem, 5vw, 4rem);
   font-weight: 300;
-  line-height: 1.15;
+  line-height: 1.2;
   color: var(--text);
+  margin-bottom: 1.2rem;
+  max-width: 800px;
 }
-.video-text p {
-  margin-top: 1.2rem;
-  font-size: 0.8rem;
-  letter-spacing: 0.22em;
+.chefs-table-text p {
+  font-size: 0.75rem;
+  letter-spacing: 0.28em;
   text-transform: uppercase;
   color: var(--accent);
 }
 
-/* ─── GALLERY ─── */
+/* ─── GALLERIA — EDITORIAL ASYMMETRIC ─── */
 #galleria {
-  background: var(--bg2);
+  background: var(--bg);
+  padding: 9rem 3rem;
 }
-.gallery-grid {
-  column-count: 3;
-  column-gap: 1rem;
+.galleria-grid {
+  display: grid;
+  grid-template-columns: repeat(6, 1fr);
+  gap: 1rem;
   margin-top: 3.5rem;
+  max-width: 1500px;
+  margin-left: auto;
+  margin-right: auto;
 }
-.gallery-item {
-  break-inside: avoid;
-  margin-bottom: 1rem;
+.gallery-cell {
   overflow: hidden;
-  border-radius: 3px;
-  cursor: pointer;
+  border-radius: 2px;
   position: relative;
+  cursor: zoom-in;
 }
-.gallery-item::after {
-  content: '';
-  position: absolute;
-  inset: 0;
-  background: rgba(184,150,90,0);
-  transition: background 0.35s;
+.gallery-cell img {
+  height: 100%;
+  object-fit: cover;
+  transition: transform 0.7s var(--ease);
 }
-.gallery-item:hover::after { background: rgba(184,150,90,0.12); }
-.gallery-item img {
-  display: block;
-  width: 100%;
-  transition: transform 0.55s var(--ease);
-}
-.gallery-item:hover img { transform: scale(1.04); }
+.gallery-cell:hover img { transform: scale(1.06); }
+
+/* Editorial composition: asymmetric grid */
+.gc-wide   { grid-column: span 4; aspect-ratio: 16/9; }
+.gc-tall   { grid-column: span 2; grid-row: span 2; aspect-ratio: 2/3; }
+.gc-sq     { grid-column: span 2; aspect-ratio: 1; }
+.gc-hero   { grid-column: span 6; aspect-ratio: 21/9; }
+.gc-wide3  { grid-column: span 3; aspect-ratio: 3/2; }
 
 /* ─── LIGHTBOX ─── */
 #lightbox {
-  display: none;
   position: fixed;
   inset: 0;
-  z-index: 999;
+  z-index: 9999;
   background: var(--ov-lb);
+  display: none;
   align-items: center;
   justify-content: center;
-  padding: 2rem;
+  padding: 4rem;
 }
 #lightbox.open { display: flex; }
 #lightbox img {
   max-width: 90vw;
   max-height: 90vh;
+  width: auto;
   object-fit: contain;
-  border-radius: 3px;
 }
 #lightbox-close {
   position: absolute;
-  top: 1.5rem; right: 2rem;
-  font-size: 2rem;
-  color: var(--muted);
-  cursor: pointer;
+  top: 1.5rem;
+  right: 1.5rem;
   background: none;
   border: none;
-  transition: color 0.2s;
+  color: var(--text);
+  font-size: 2rem;
+  cursor: pointer;
+  width: 48px;
+  height: 48px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
-#lightbox-close:hover { color: var(--text); }
+
+/* ─── LA SALA ─── */
+#lasala {
+  background: var(--bg2);
+  padding: 9rem 3rem;
+}
+.lasala-grid {
+  display: grid;
+  grid-template-columns: 1.4fr 1fr;
+  grid-template-rows: auto auto;
+  gap: 1.2rem;
+  margin-top: 3.5rem;
+  max-width: 1400px;
+  margin-left: auto;
+  margin-right: auto;
+}
+.lasala-main {
+  grid-column: 1;
+  grid-row: 1 / span 2;
+  aspect-ratio: 4/5;
+  overflow: hidden;
+  border-radius: 2px;
+}
+.lasala-main img { height: 100%; object-fit: cover; }
+.lasala-side {
+  aspect-ratio: 4/3;
+  overflow: hidden;
+  border-radius: 2px;
+}
+.lasala-side img { height: 100%; object-fit: cover; }
 
 /* ─── RECENSIONI ─── */
+#recensioni {
+  background: var(--bg);
+  padding: 7rem 3rem 7rem;
+}
 .review-rail {
   display: flex;
   gap: 1.5rem;
   overflow-x: auto;
-  padding: 2.5rem 0 1rem;
+  padding-bottom: 1rem;
+  margin-top: 3rem;
   scroll-snap-type: x mandatory;
   -ms-overflow-style: none;
   scrollbar-width: none;
@@ -481,47 +656,35 @@ section { padding: 7rem 3rem; }
 .review-rail:active { cursor: grabbing; }
 .review-rail::-webkit-scrollbar { display: none; }
 .review-card {
-  flex: 0 0 320px;
+  flex: 0 0 380px;
   scroll-snap-align: start;
-  background: var(--surface);
+  padding: 2rem 1.8rem;
   border: 1px solid var(--border);
   border-radius: 4px;
-  padding: 1.8rem;
-  display: flex;
-  flex-direction: column;
-  gap: 1rem;
-  transition: border-color 0.3s, transform 0.3s var(--ease);
-}
-.review-card:hover {
-  border-color: rgba(184,150,90,0.35);
-  transform: translateY(-4px);
-  will-change: transform;
+  background: var(--bg2);
 }
 .review-stars {
   color: var(--accent);
   font-size: 0.95rem;
-  letter-spacing: 2px;
+  letter-spacing: 0.1em;
+  margin-bottom: 1.2rem;
 }
 .review-text {
   font-family: var(--font-d);
   font-style: italic;
-  font-size: 1.1rem;
-  font-weight: 400;
-  line-height: 1.65;
+  font-size: 1.05rem;
+  line-height: 1.6;
   color: var(--text);
-  flex: 1;
+  margin-bottom: 1.5rem;
 }
 .review-author {
   display: flex;
   flex-direction: column;
   gap: 0.2rem;
-  padding-top: 0.8rem;
-  border-top: 1px solid var(--border);
 }
 .review-name {
-  font-size: 0.82rem;
+  font-size: 0.85rem;
   font-weight: 500;
-  letter-spacing: 0.06em;
   color: var(--text);
 }
 .review-date {
@@ -533,130 +696,124 @@ section { padding: 7rem 3rem; }
 
 /* ─── PRENOTA ─── */
 #prenota {
-  background: var(--bg);
+  background: var(--bg2);
+  padding: 9rem 3rem;
   display: grid;
   grid-template-columns: 1fr 1fr;
   gap: 5rem;
   align-items: start;
 }
-.prenota-info .section-title { margin-bottom: 1.5rem; }
 .prenota-info p {
   font-size: 0.95rem;
   color: var(--muted);
-  line-height: 1.8;
-  max-width: 400px;
+  line-height: 1.85;
 }
 .booking-form {
   display: grid;
   grid-template-columns: 1fr 1fr;
-  gap: 1rem;
+  gap: 1.2rem;
 }
-.field { display: flex; flex-direction: column; gap: 0.4rem; }
-.field.full { grid-column: 1 / -1; }
+.field {
+  display: flex;
+  flex-direction: column;
+}
+.field-full { grid-column: 1 / -1; }
 .field label {
   font-size: 0.7rem;
-  letter-spacing: 0.16em;
+  letter-spacing: 0.15em;
   text-transform: uppercase;
   color: var(--muted);
+  margin-bottom: 0.5rem;
 }
 .field input, .field select, .field textarea {
-  background: var(--surface);
+  background: transparent;
   border: 1px solid var(--border);
-  border-radius: 2px;
   color: var(--text);
   font-family: var(--font-b);
-  font-size: 0.92rem;
-  font-weight: 400;
-  padding: 0.75rem 1rem;
-  outline: none;
-  transition: border-color 0.25s;
+  font-size: 0.95rem;
+  padding: 0.8rem 1rem;
+  border-radius: 2px;
+  transition: border-color 0.2s;
 }
 .field input:focus, .field select:focus, .field textarea:focus {
+  outline: none;
   border-color: var(--accent);
 }
-.field select { appearance: none; cursor: pointer; }
-.field textarea { resize: vertical; min-height: 90px; }
-.book-btn {
+.field textarea { resize: vertical; min-height: 80px; font-family: var(--font-b); }
+.booking-submit {
   grid-column: 1 / -1;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  gap: 0.6rem;
-  background: transparent;
-  border: 1px solid var(--accent);
-  color: var(--accent);
+  margin-top: 1rem;
+  background: var(--accent);
+  color: var(--bg);
+  border: none;
   font-family: var(--font-b);
-  font-size: 0.75rem;
+  font-size: 0.78rem;
   font-weight: 500;
   letter-spacing: 0.18em;
   text-transform: uppercase;
-  padding: 1rem;
+  padding: 1.1rem 2rem;
   border-radius: 2px;
   cursor: pointer;
-  transition: background 0.28s, color 0.28s;
+  transition: background 0.25s;
 }
-.book-btn:hover { background: var(--accent); color: var(--bg); }
-.book-btn svg { width: 18px; height: 18px; }
+.booking-submit:hover { background: var(--accent-d); }
 
 /* ─── CONTATTI ─── */
 #contatti {
-  background: var(--bg2);
-  border-top: 1px solid var(--border);
+  background: var(--bg);
+  padding: 7rem 3rem;
 }
 .contatti-grid {
   display: grid;
-  grid-template-columns: 1fr 1fr 1fr;
-  gap: 4rem;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 3rem;
   margin-top: 3.5rem;
 }
 .contatti-block h3 {
-  font-size: 0.65rem;
-  letter-spacing: 0.24em;
-  text-transform: uppercase;
-  color: var(--accent);
-  margin-bottom: 1.2rem;
+  font-family: var(--font-d);
+  font-size: 1.4rem;
+  font-weight: 500;
+  margin-bottom: 1rem;
 }
 .contatti-block p, .contatti-block a {
-  font-size: 0.95rem;
+  font-size: 0.92rem;
   color: var(--muted);
-  line-height: 1.9;
+  line-height: 1.85;
   display: block;
-  transition: color 0.2s;
 }
-.contatti-block a:hover { color: var(--text); }
+.contatti-block a { transition: color 0.2s; }
+.contatti-block a:hover { color: var(--accent); }
 .social-row {
   display: flex;
-  gap: 1.2rem;
-  margin-top: 1rem;
+  gap: 0.8rem;
+  margin-top: 1.2rem;
 }
 .social-btn {
-  display: flex;
+  font-size: 0.68rem;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  border: 1px solid var(--border);
+  color: var(--text);
+  padding: 0.7rem 1rem;
+  border-radius: 2px;
+  transition: border-color 0.2s, color 0.2s;
+  display: inline-flex;
   align-items: center;
   gap: 0.5rem;
-  font-size: 0.75rem;
-  letter-spacing: 0.1em;
-  color: var(--muted);
-  border: 1px solid var(--border);
-  padding: 0.65rem 1rem;
-  min-height: 44px;
-  border-radius: 2px;
-  transition: border-color 0.25s, color 0.25s;
 }
-.social-btn:hover { border-color: var(--accent); color: var(--text); }
+.social-btn:hover { border-color: var(--accent); color: var(--accent); }
 
 /* ─── FOOTER ─── */
 footer {
-  background: var(--bg);
+  background: var(--bg2);
+  padding: 3rem;
   border-top: 1px solid var(--border);
-  padding: 2rem 3rem;
   display: flex;
   align-items: center;
   justify-content: space-between;
-}
-footer p {
-  font-size: 0.72rem;
+  font-size: 0.75rem;
+  letter-spacing: 0.1em;
   color: var(--muted);
-  letter-spacing: 0.06em;
 }
 
 /* ─── REDUCED MOTION ─── */
@@ -664,84 +821,15 @@ footer p {
   .reveal { opacity: 1; transform: none; transition: none; }
   .hero-eyebrow, .hero-title, .hero-sub, .hero-cta { opacity: 1; transform: none; transition: none; }
   .hero-scroll-line { animation: none; }
-  .dish-card, .gallery-item img, .review-card { transition: none; }
+  .dish-card, .gallery-cell img, .review-card { transition: none; }
 }
-
-/* ─── GALLERY ITEM AS BUTTON ─── */
-.gallery-item[role="button"] { outline: none; }
-.gallery-item[role="button"]:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
-
-/* ─── HAMBURGER ─── */
-.nav-hamburger {
-  display: none;
-  flex-direction: column;
-  justify-content: center;
-  gap: 5px;
-  background: none;
-  border: none;
-  cursor: pointer;
-  padding: 8px;
-  width: 44px;
-  height: 44px;
-}
-.nav-hamburger span {
-  display: block;
-  width: 22px;
-  height: 1px;
-  background: var(--text);
-  transition: transform 0.3s var(--ease), opacity 0.3s;
-}
-.nav-hamburger.open span:nth-child(1) { transform: translateY(6px) rotate(45deg); }
-.nav-hamburger.open span:nth-child(2) { opacity: 0; }
-.nav-hamburger.open span:nth-child(3) { transform: translateY(-6px) rotate(-45deg); }
-
-/* ─── MOBILE MENU ─── */
-#mobileMenu {
-  position: fixed;
-  inset: 0;
-  z-index: 200;
-  background: rgba(9,16,10,0.97);
-  backdrop-filter: blur(20px);
-  -webkit-backdrop-filter: blur(20px);
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  gap: 2rem;
-}
-#mobileMenu[hidden] { display: none; }
-#mobileMenu nav { display: flex; flex-direction: column; align-items: center; gap: 2rem; }
-#mobileMenu nav a {
-  font-family: var(--font-d);
-  font-size: clamp(1.8rem, 8vw, 3rem);
-  font-weight: 300;
-  letter-spacing: 0.05em;
-  color: var(--text);
-  transition: color 0.2s;
-}
-#mobileMenu nav a:hover { color: var(--accent); }
-.mobile-menu-close {
-  position: absolute;
-  top: 1.5rem;
-  right: 1.5rem;
-  background: none;
-  border: none;
-  color: var(--muted);
-  font-size: 2rem;
-  cursor: pointer;
-  width: 44px;
-  height: 44px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  transition: color 0.2s;
-}
-.mobile-menu-close:hover { color: var(--text); }
 
 /* ─── MOBILE ─── */
 @media (max-width: 900px) {
-  nav { padding: 1.2rem 1.5rem; }
-  nav.scrolled { padding: 0.9rem 1.5rem; }
+  nav { padding: 1rem 1.5rem; }
+  nav.scrolled { padding: 0.7rem 1.5rem; }
+  .nav-logo { height: 36px; }
+  nav.scrolled .nav-logo { height: 28px; }
   .nav-links { display: none; }
   .nav-hamburger { display: flex; }
   .nav-cta { display: none; }
@@ -750,15 +838,23 @@ footer p {
   #piatti .section-header { padding-right: 1.5rem; }
   .dishes-rail { padding-right: 1.5rem; }
   .dish-card { flex: 0 0 280px; }
+  .lochef-grid { grid-template-columns: 1fr; gap: 2.5rem; }
+  .lochef-text { padding-left: 0; }
+  .lochef-side-row { margin-top: 2.5rem; }
+  .galleria-grid { grid-template-columns: repeat(2, 1fr); }
+  .gc-wide   { grid-column: span 2; aspect-ratio: 16/10; }
+  .gc-tall   { grid-column: span 2; grid-row: auto; aspect-ratio: 4/5; }
+  .gc-sq     { grid-column: span 1; aspect-ratio: 1; }
+  .gc-hero   { grid-column: span 2; aspect-ratio: 16/10; }
+  .gc-wide3  { grid-column: span 2; aspect-ratio: 16/10; }
+  .lasala-grid { grid-template-columns: 1fr; }
+  .lasala-main { grid-column: 1; grid-row: auto; aspect-ratio: 4/5; }
   #prenota { grid-template-columns: 1fr; gap: 3rem; padding: 5rem 1.5rem; }
   .booking-form { grid-template-columns: 1fr; }
-  .gallery-grid { column-count: 2; }
   .contatti-grid { grid-template-columns: 1fr; gap: 2.5rem; }
-  #contatti { padding: 5rem 1.5rem; }
   footer { flex-direction: column; gap: 1rem; text-align: center; }
 }
 @media (max-width: 500px) {
-  .gallery-grid { column-count: 1; }
   .hero-title { font-size: clamp(2.8rem, 14vw, 5rem); }
 }
 </style>
@@ -768,35 +864,39 @@ footer p {
 <a href="#piatti" class="skip-link">Vai al contenuto</a>
 
 <!-- NAV -->
-<nav id="nav" aria-label="Navigazione principale">
-  <a href="#" class="nav-brand">Serrago<span>.</span></a>
-  <ul class="nav-links">
-    <li><a href="#piatti">Il Menu</a></li>
-    <li><a href="#galleria">Galleria</a></li>
-    <li><a href="#prenota">Prenota</a></li>
-    <li><a href="#contatti">Contatti</a></li>
-  </ul>
-  <a href="#prenota" class="nav-cta">Prenota un tavolo</a>
-  <button class="nav-hamburger" id="navHamburger" aria-label="Apri menu" aria-expanded="false" aria-controls="mobileMenu">
+<nav id="nav">
+  <a href="#hero" class="nav-brand" aria-label="Ristorante Serrago — home">
+    <img src="img/logo-serrago-bw.png" alt="Ristorante Serrago" class="nav-logo">
+  </a>
+  <div class="nav-links">
+    <a href="#piatti">Piatti</a>
+    <a href="#lochef">Lo Chef</a>
+    <a href="#galleria">Galleria</a>
+    <a href="#lasala">La Sala</a>
+    <a href="#contatti">Contatti</a>
+  </div>
+  <a href="#prenota" class="nav-cta">Prenota</a>
+  <button class="nav-hamburger" id="navHamburger" aria-label="Apri menu" aria-expanded="false">
     <span></span><span></span><span></span>
   </button>
 </nav>
 
 <!-- MOBILE MENU -->
-<div id="mobileMenu" role="dialog" aria-label="Menu di navigazione" aria-modal="true" hidden>
+<div id="mobileMenu" hidden>
   <button class="mobile-menu-close" id="mobileMenuClose" aria-label="Chiudi menu">&times;</button>
-  <nav aria-label="Menu mobile">
-    <a href="#piatti" onclick="closeMobileMenu()">Il Menu</a>
+  <nav>
+    <a href="#piatti" onclick="closeMobileMenu()">Piatti</a>
+    <a href="#lochef" onclick="closeMobileMenu()">Lo Chef</a>
     <a href="#galleria" onclick="closeMobileMenu()">Galleria</a>
-    <a href="#recensioni" onclick="closeMobileMenu()">Recensioni</a>
-    <a href="#prenota" onclick="closeMobileMenu()">Prenota</a>
+    <a href="#lasala" onclick="closeMobileMenu()">La Sala</a>
     <a href="#contatti" onclick="closeMobileMenu()">Contatti</a>
+    <a href="#prenota" onclick="closeMobileMenu()">Prenota</a>
   </nav>
 </div>
 
 <!-- HERO -->
 <section id="hero">
-  <video class="hero-video" id="heroVid" autoplay muted loop playsinline poster="img/dish_014_L39_2023-08-02_main.jpg" aria-hidden="true">
+  <video autoplay muted loop playsinline id="heroVid" aria-hidden="true">
     <source src="img/hero_bg.mp4" type="video/mp4">
   </video>
   <div class="hero-overlay"></div>
@@ -817,7 +917,7 @@ footer p {
     "Ogni piatto nasce dal rispetto per il mare e la terra di Calabria.
     La tradizione è la nostra radice — l'innovazione, il nostro linguaggio."
   </blockquote>
-  <p class="manifesto-attr reveal reveal-delay-2">— Ristorante Serrago, Praia a Mare</p>
+  <p class="manifesto-attr reveal reveal-delay-2">— Filosofia Serrago</p>
 </section>
 
 <!-- PIATTI -->
@@ -832,92 +932,161 @@ footer p {
 
     <div class="dish-card">
       <div class="dish-card-img">
-        <img src="img/dish_019_L34_2023-09-09_main.jpg" alt="Crudités di mare">
-      </div>
-      <div class="dish-card-body">
-        <p class="dish-tag">Antipasto · Crudo</p>
-        <h3 class="dish-name">Crudités di Mare</h3>
-        <p class="dish-desc">Selezione di ostriche, cozze, gamberi rossi e carpaccio di pesce locale. Il mare nel piatto.</p>
-      </div>
-    </div>
-
-    <div class="dish-card">
-      <div class="dish-card-img">
-        <img src="img/dish_014_L39_2023-08-02_main.jpg" alt="Tataki di tonno">
+        <picture>
+          <source srcset="img/tataki-tonno.webp" type="image/webp">
+          <img src="img/tataki-tonno.jpg" alt="Tataki di tonno scottato al sesamo su piatto di pietra grigia">
+        </picture>
       </div>
       <div class="dish-card-body">
         <p class="dish-tag">Secondo · Pesce</p>
         <h3 class="dish-name">Tataki di Tonno</h3>
-        <p class="dish-desc">Tonno rosso del Mediterraneo scottato in padella, salsa agrumata e olio evo calabrese.</p>
+        <p class="dish-desc">Tonno rosso scottato in crosta di sesamo, foglie di bietola, mirtilli e gocce di emulsione agrumata.</p>
       </div>
     </div>
 
     <div class="dish-card">
       <div class="dish-card-img">
-        <img src="img/dish_018_L34_2023-09-09_side.jpg" alt="Risotto all'astice">
+        <picture>
+          <source srcset="img/crudo-misto.webp" type="image/webp">
+          <img src="img/crudo-misto.jpg" alt="Crudités di mare con carpacci e salmone affumicato su piatto nero">
+        </picture>
       </div>
       <div class="dish-card-body">
-        <p class="dish-tag">Primo · Riso</p>
-        <h3 class="dish-name">Risotto all'Astice</h3>
-        <p class="dish-desc">Riso Carnaroli mantecato con bisque d'astice, astice fresco e riduzione di limone di Calabria.</p>
+        <p class="dish-tag">Antipasto · Crudo</p>
+        <h3 class="dish-name">Crudités di Mare</h3>
+        <p class="dish-desc">Selezione di carpacci, salmone marinato in casa, polpo e gamberi rossi del Mediterraneo.</p>
       </div>
     </div>
 
     <div class="dish-card">
       <div class="dish-card-img">
-        <img src="img/dish_016_L39_2023-08-02_side.jpg" alt="Gran piatto di crudo">
+        <picture>
+          <source srcset="img/tartare-pesce.webp" type="image/webp">
+          <img src="img/tartare-pesce.jpg" alt="Tartare di pesce con corona di patate chips croccanti">
+        </picture>
       </div>
       <div class="dish-card-body">
-        <p class="dish-tag">Antipasto · Selezione</p>
-        <h3 class="dish-name">Gran Crudo</h3>
-        <p class="dish-desc">Carpaccio di ricciola, gamberi, scampi e tartare di tonno con condimenti della tradizione.</p>
+        <p class="dish-tag">Antipasto · Crudo</p>
+        <h3 class="dish-name">Tartare di Pesce</h3>
+        <p class="dish-desc">Tartare del pescato del giorno su letto di cavolo rosso, corona di patate sottili e fritte al momento.</p>
       </div>
     </div>
 
     <div class="dish-card">
       <div class="dish-card-img">
-        <img src="img/dish_027_L33_2023-08-04_side.jpg" alt="Pesce con funghi">
+        <picture>
+          <source srcset="img/gamberi-pistacchio.webp" type="image/webp">
+          <img src="img/gamberi-pistacchio.jpg" alt="Gamberi al pistacchio con carote glassate e salse al pisello">
+        </picture>
       </div>
       <div class="dish-card-body">
-        <p class="dish-tag">Secondo · Terra e Mare</p>
-        <h3 class="dish-name">Pagello ai Funghi</h3>
-        <p class="dish-desc">Pagello fresco su crema allo zafferano, funghi porcini e pinoli tostati.</p>
+        <p class="dish-tag">Antipasto · Crudo</p>
+        <h3 class="dish-name">Gamberi al Pistacchio</h3>
+        <p class="dish-desc">Gamberi rossi con granella di pistacchio di Bronte, carote glassate, salsa al pisello e pomodoro.</p>
       </div>
     </div>
 
     <div class="dish-card">
       <div class="dish-card-img">
-        <img src="img/dish_021_L34_2022-06-20_side.jpg" alt="Spaghetti alle vongole">
+        <picture>
+          <source srcset="img/carpaccio-cinghiale.webp" type="image/webp">
+          <img src="img/carpaccio-cinghiale.jpg" alt="Carpaccio di cinghiale ai fichi con mousse di ricotta">
+        </picture>
       </div>
       <div class="dish-card-body">
-        <p class="dish-tag">Primo · Pasta</p>
-        <h3 class="dish-name">Spaghetti alle Cozze</h3>
-        <p class="dish-desc">Pasta artigianale con cozze di Taranto, pomodorini di Calabria e bottarga di muggine.</p>
+        <p class="dish-tag">Antipasto · Terra</p>
+        <h3 class="dish-name">Carpaccio di Cinghiale</h3>
+        <p class="dish-desc">Carpaccio di cinghiale con balsamico, fichi maturi e mousse di ricotta — l'unico piatto di terra del menu.</p>
       </div>
     </div>
 
     <div class="dish-card">
       <div class="dish-card-img">
-        <img src="img/dish_030_L33_2023-08-04_side.jpg" alt="Dessert al cioccolato">
+        <picture>
+          <source srcset="img/gamberi-finocchi.webp" type="image/webp">
+          <img src="img/gamberi-finocchi.jpg" alt="Gamberi al pepe su insalata di finocchi">
+        </picture>
       </div>
       <div class="dish-card-body">
-        <p class="dish-tag">Dolce</p>
-        <h3 class="dish-name">Fondente di Calabria</h3>
-        <p class="dish-desc">Cremoso al cioccolato fondente 80%, sorbetto al bergamotto e crumble al cacao.</p>
+        <p class="dish-tag">Antipasto · Mare</p>
+        <h3 class="dish-name">Gamberi e Finocchi</h3>
+        <p class="dish-desc">Gamberi pepati su insalata di finocchi e basilico fresco, serviti su pietra di Calabria.</p>
+      </div>
+    </div>
+
+    <div class="dish-card">
+      <div class="dish-card-img">
+        <picture>
+          <source srcset="img/gamberoni-saltati.webp" type="image/webp">
+          <img src="img/gamberoni-saltati.jpg" alt="Gamberoni saltati al pepe rosa con riduzione agrumata">
+        </picture>
+      </div>
+      <div class="dish-card-body">
+        <p class="dish-tag">Secondo · Pesce</p>
+        <h3 class="dish-name">Gamberoni Saltati</h3>
+        <p class="dish-desc">Gamberoni interi saltati al pepe rosa, riduzione agrumata e gocce di salsa al lampone.</p>
+      </div>
+    </div>
+
+    <div class="dish-card">
+      <div class="dish-card-img">
+        <picture>
+          <source srcset="img/tonno-sesamo.webp" type="image/webp">
+          <img src="img/tonno-sesamo.jpg" alt="Tonno al sesamo su carta nera con verdure">
+        </picture>
+      </div>
+      <div class="dish-card-body">
+        <p class="dish-tag">Secondo · Pesce</p>
+        <h3 class="dish-name">Tonno al Sesamo</h3>
+        <p class="dish-desc">Tataki al sesamo tostato con peperoni verdi croccanti, cavolo rosso e germogli marinati.</p>
       </div>
     </div>
 
   </div>
 </section>
 
-<!-- VIDEO PARALLAX -->
-<div id="video-section" role="region" aria-label="Video del ristorante">
-  <video autoplay muted loop playsinline aria-hidden="true">
-    <source src="img/hero_03.mp4" type="video/mp4">
-  </video>
-  <div class="video-text reveal">
-    <h2>"Il mare è<br>la nostra cucina"</h2>
-    <p>Praia a Mare · Calabria · Dal Mare alla Tavola</p>
+<!-- LO CHEF -->
+<section id="lochef">
+  <div class="lochef-grid">
+    <div class="lochef-img-main reveal">
+      <picture>
+        <source srcset="img/chef-giuseppe.webp" type="image/webp">
+        <img src="img/chef-giuseppe.jpg" alt="Lo chef Giuseppe in fase di impiattamento con pinzette">
+      </picture>
+    </div>
+    <div class="lochef-text reveal reveal-delay-2">
+      <p class="section-label">Lo Chef</p>
+      <h2 class="section-title">Giuseppe<br><em>e la sua cucina</em></h2>
+      <p>Nato e cresciuto in Calabria, Giuseppe interpreta la tradizione del territorio con uno sguardo contemporaneo. Ogni piatto è il risultato di una ricerca quotidiana: pesce del mar Tirreno, ortaggi locali, e una creatività che si traduce in piatti dove ogni elemento ha un significato preciso.</p>
+      <p>Cucina aperta a vista, perché la trasparenza fa parte dell'esperienza. Materie prime selezionate ogni mattina, lavorate con rispetto e impiattate con cura — il filo conduttore di Serrago dal primo giorno.</p>
+    </div>
+  </div>
+  <div class="lochef-side-row">
+    <div class="reveal">
+      <picture>
+        <source srcset="img/pesce-fresco.webp" type="image/webp">
+        <img src="img/pesce-fresco.jpg" alt="Lo chef seleziona il pescato del giorno">
+      </picture>
+    </div>
+    <div class="reveal reveal-delay-2">
+      <picture>
+        <source srcset="img/plating-service.webp" type="image/webp">
+        <img src="img/plating-service.jpg" alt="Linea di servizio con piatti impiattati identicamente">
+      </picture>
+    </div>
+  </div>
+</section>
+
+<!-- CHEF'S TABLE PARALLAX -->
+<div id="chefs-table" role="region" aria-label="Tavolo con vista sulla cucina">
+  <picture>
+    <source srcset="img/chefs-table.webp" type="image/webp">
+    <img src="img/chefs-table.jpg" alt="Calice di vino in primo piano e lo chef in cucina aperta sullo sfondo">
+  </picture>
+  <div class="chefs-table-overlay"></div>
+  <div class="chefs-table-text">
+    <h2 class="reveal">"Il piatto, il calice,<br>la cucina che lavora.<br>Niente di più."</h2>
+    <p class="reveal reveal-delay-2">Chef's Table · Serrago</p>
   </div>
 </div>
 
@@ -925,43 +1094,64 @@ footer p {
 <section id="galleria">
   <p class="section-label reveal">La nostra cucina</p>
   <h2 class="section-title reveal reveal-delay-1">Galleria</h2>
-  <div class="gallery-grid">
-    <div class="gallery-item reveal" role="button" tabindex="0" onclick="openLightbox(this)" onkeydown="if(event.key==='Enter'||event.key===' ')openLightbox(this)">
-      <img src="img/dish_017_L34_2023-09-09_side.jpg" alt="Pesce fresco in cucina" loading="lazy">
+  <div class="galleria-grid">
+
+    <div class="gallery-cell gc-wide reveal" role="button" tabindex="0" onclick="openLightbox(this)" onkeydown="if(event.key==='Enter'||event.key===' ')openLightbox(this)">
+      <picture>
+        <source srcset="img/gallery-salumi-mare.webp" type="image/webp">
+        <img src="img/gallery-salumi-mare.jpg" alt="Selezione di salumi di mare su piatto nero" loading="lazy">
+      </picture>
     </div>
-    <div class="gallery-item reveal reveal-delay-1" role="button" tabindex="0" onclick="openLightbox(this)" onkeydown="if(event.key==='Enter'||event.key===' ')openLightbox(this)">
-      <img src="img/dish_003_L53_2023-08-13_side.jpg" alt="Preparazione polpo" loading="lazy">
+
+    <div class="gallery-cell gc-tall reveal reveal-delay-1" role="button" tabindex="0" onclick="openLightbox(this)" onkeydown="if(event.key==='Enter'||event.key===' ')openLightbox(this)">
+      <picture>
+        <source srcset="img/gallery-degustazione.webp" type="image/webp">
+        <img src="img/gallery-degustazione.jpg" alt="Sei coppette di degustazione di crudo" loading="lazy">
+      </picture>
     </div>
-    <div class="gallery-item reveal reveal-delay-2" role="button" tabindex="0" onclick="openLightbox(this)" onkeydown="if(event.key==='Enter'||event.key===' ')openLightbox(this)">
-      <img src="img/dish_019_L34_2023-09-09_main.jpg" alt="Crudités di mare" loading="lazy">
+
+    <div class="gallery-cell gc-sq reveal reveal-delay-2" role="button" tabindex="0" onclick="openLightbox(this)" onkeydown="if(event.key==='Enter'||event.key===' ')openLightbox(this)">
+      <picture>
+        <source srcset="img/gallery-zucchine-arrotolate.webp" type="image/webp">
+        <img src="img/gallery-zucchine-arrotolate.jpg" alt="Zucchine arrotolate con alici e crumble di mandorle" loading="lazy">
+      </picture>
     </div>
-    <div class="gallery-item reveal" role="button" tabindex="0" onclick="openLightbox(this)" onkeydown="if(event.key==='Enter'||event.key===' ')openLightbox(this)">
-      <img src="img/dish_014_L39_2023-08-02_main.jpg" alt="Tataki di tonno" loading="lazy">
+
+    <div class="gallery-cell gc-sq reveal reveal-delay-3" role="button" tabindex="0" onclick="openLightbox(this)" onkeydown="if(event.key==='Enter'||event.key===' ')openLightbox(this)">
+      <picture>
+        <source srcset="img/gallery-pesce-pietra.webp" type="image/webp">
+        <img src="img/gallery-pesce-pietra.jpg" alt="Filetto di pesce su pietra grigia con verdure marinate" loading="lazy">
+      </picture>
     </div>
-    <div class="gallery-item reveal reveal-delay-1" role="button" tabindex="0" onclick="openLightbox(this)" onkeydown="if(event.key==='Enter'||event.key===' ')openLightbox(this)">
-      <img src="img/dish_018_L34_2023-09-09_side.jpg" alt="Risotto all'astice" loading="lazy">
+
+    <div class="gallery-cell gc-wide3 reveal" role="button" tabindex="0" onclick="openLightbox(this)" onkeydown="if(event.key==='Enter'||event.key===' ')openLightbox(this)">
+      <picture>
+        <source srcset="img/gallery-crudo-totale.webp" type="image/webp">
+        <img src="img/gallery-crudo-totale.jpg" alt="Gran piatto di crudo di mare con carpacci, salmone e polpo" loading="lazy">
+      </picture>
     </div>
-    <div class="gallery-item reveal reveal-delay-2" role="button" tabindex="0" onclick="openLightbox(this)" onkeydown="if(event.key==='Enter'||event.key===' ')openLightbox(this)">
-      <img src="img/dish_016_L39_2023-08-02_side.jpg" alt="Gran crudo di mare" loading="lazy">
+
+    <div class="gallery-cell gc-wide3 reveal reveal-delay-1" role="button" tabindex="0" onclick="openLightbox(this)" onkeydown="if(event.key==='Enter'||event.key===' ')openLightbox(this)">
+      <picture>
+        <source srcset="img/gallery-polpette-baccala.webp" type="image/webp">
+        <img src="img/gallery-polpette-baccala.jpg" alt="Polpette di baccalà su spinaci freschi" loading="lazy">
+      </picture>
     </div>
-    <div class="gallery-item reveal" role="button" tabindex="0" onclick="openLightbox(this)" onkeydown="if(event.key==='Enter'||event.key===' ')openLightbox(this)">
-      <img src="img/dish_013_L39_2023-08-02_side.jpg" alt="Frittura di paranza" loading="lazy">
+
+    <div class="gallery-cell gc-sq reveal" role="button" tabindex="0" onclick="openLightbox(this)" onkeydown="if(event.key==='Enter'||event.key===' ')openLightbox(this)">
+      <picture>
+        <source srcset="img/gallery-gambero-pomodorini.webp" type="image/webp">
+        <img src="img/gallery-gambero-pomodorini.jpg" alt="Gambero rosso su pomodorini gialli con riduzione" loading="lazy">
+      </picture>
     </div>
-    <div class="gallery-item reveal reveal-delay-1" role="button" tabindex="0" onclick="openLightbox(this)" onkeydown="if(event.key==='Enter'||event.key===' ')openLightbox(this)">
-      <img src="img/dish_027_L33_2023-08-04_side.jpg" alt="Pagello ai funghi" loading="lazy">
+
+    <div class="gallery-cell gc-sq reveal reveal-delay-1" role="button" tabindex="0" onclick="openLightbox(this)" onkeydown="if(event.key==='Enter'||event.key===' ')openLightbox(this)">
+      <picture>
+        <source srcset="img/gallery-polipo-fichi.webp" type="image/webp">
+        <img src="img/gallery-polipo-fichi.jpg" alt="Polpo con purea di zucca e fichi caramellati" loading="lazy">
+      </picture>
     </div>
-    <div class="gallery-item reveal reveal-delay-2" role="button" tabindex="0" onclick="openLightbox(this)" onkeydown="if(event.key==='Enter'||event.key===' ')openLightbox(this)">
-      <img src="img/dish_022_L34_2022-06-20_main.jpg" alt="Antipasto misto" loading="lazy">
-    </div>
-    <div class="gallery-item reveal" role="button" tabindex="0" onclick="openLightbox(this)" onkeydown="if(event.key==='Enter'||event.key===' ')openLightbox(this)">
-      <img src="img/dish_021_L34_2022-06-20_side.jpg" alt="Spaghetti alle cozze" loading="lazy">
-    </div>
-    <div class="gallery-item reveal reveal-delay-1" role="button" tabindex="0" onclick="openLightbox(this)" onkeydown="if(event.key==='Enter'||event.key===' ')openLightbox(this)">
-      <img src="img/dish_030_L33_2023-08-04_side.jpg" alt="Dessert al cioccolato" loading="lazy">
-    </div>
-    <div class="gallery-item reveal reveal-delay-2" role="button" tabindex="0" onclick="openLightbox(this)" onkeydown="if(event.key==='Enter'||event.key===' ')openLightbox(this)">
-      <img src="img/dish_023_L34_2022-06-20_side.jpg" alt="Piatto del giorno" loading="lazy">
-    </div>
+
   </div>
 </section>
 
@@ -971,20 +1161,46 @@ footer p {
   <img id="lightbox-img" src="" alt="">
 </div>
 
+<!-- LA SALA -->
+<section id="lasala">
+  <p class="section-label reveal">L'esperienza</p>
+  <h2 class="section-title reveal reveal-delay-1">La Sala<br><em>e la Terrazza</em></h2>
+  <div class="lasala-grid">
+    <div class="lasala-main reveal">
+      <picture>
+        <source srcset="img/sala-terrazza-insegna.webp" type="image/webp">
+        <img src="img/sala-terrazza-insegna.jpg" alt="Terrazza esterna di Serrago di sera con insegna illuminata">
+      </picture>
+    </div>
+    <div class="lasala-side reveal reveal-delay-1">
+      <picture>
+        <source srcset="img/sala-interno-bonsai.webp" type="image/webp">
+        <img src="img/sala-interno-bonsai.jpg" alt="Vista dell'interno con bonsai e banco bar">
+      </picture>
+    </div>
+    <div class="lasala-side reveal reveal-delay-2">
+      <picture>
+        <source srcset="img/sala-tavoli.webp" type="image/webp">
+        <img src="img/sala-tavoli.jpg" alt="Tavoli apparecchiati con calici e tovaglie con illustrazioni di pesci">
+      </picture>
+    </div>
+  </div>
+</section>
+
 <!-- RECENSIONI -->
-<section id="recensioni" style="background:var(--bg2);">
+<section id="recensioni">
   <p class="section-label reveal">Cosa dicono di noi</p>
   <h2 class="section-title reveal reveal-delay-1">Recensioni</h2>
-  <div style="display:flex;align-items:center;gap:1rem;margin-top:1rem;" class="reveal reveal-delay-2">
+  <div style="display:flex;align-items:center;gap:1rem;margin-top:1rem;flex-wrap:wrap;" class="reveal reveal-delay-2">
     <div style="display:flex;gap:4px;">
-      <svg width="20" height="20" viewBox="0 0 24 24" fill="#B8965A"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
-      <svg width="20" height="20" viewBox="0 0 24 24" fill="#B8965A"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
-      <svg width="20" height="20" viewBox="0 0 24 24" fill="#B8965A"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
-      <svg width="20" height="20" viewBox="0 0 24 24" fill="#B8965A"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
-      <svg width="20" height="20" viewBox="0 0 24 24" fill="#B8965A"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
+      <svg width="20" height="20" viewBox="0 0 24 24" fill="#B8965A" aria-hidden="true"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
+      <svg width="20" height="20" viewBox="0 0 24 24" fill="#B8965A" aria-hidden="true"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
+      <svg width="20" height="20" viewBox="0 0 24 24" fill="#B8965A" aria-hidden="true"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
+      <svg width="20" height="20" viewBox="0 0 24 24" fill="#B8965A" aria-hidden="true"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
+      <svg width="20" height="20" viewBox="0 0 24 24" fill="#B8965A" aria-hidden="true"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
     </div>
-    <span style="font-family:var(--font-d);font-size:1.1rem;color:var(--text);">4.7 / 5</span>
-    <span style="font-size:0.72rem;letter-spacing:0.12em;color:var(--muted);text-transform:uppercase;">· TripAdvisor · #8 di 78 ristoranti a Praia a Mare</span>
+    <span style="font-family:var(--font-d);font-size:1.1rem;color:var(--text);">4.8 / 5</span>
+    <span style="font-size:0.72rem;letter-spacing:0.12em;color:var(--muted);text-transform:uppercase;">· Google · 147 recensioni</span>
   </div>
 
   <div class="review-rail" id="reviewRail">
@@ -1000,7 +1216,7 @@ footer p {
 
     <div class="review-card reveal reveal-delay-1">
       <div class="review-stars">★★★★★</div>
-      <blockquote class="review-text">"Lo chef utilizza materie prime fresche e propone ricette tradizionali locali interpretate in modo innovativo. Davvero eccellente!"</blockquote>
+      <blockquote class="review-text">"Lo chef utilizza materie prime fresche e propone ricette tradizionali locali interpretate in modo innovativo. Davvero eccellente."</blockquote>
       <div class="review-author">
         <span class="review-name">Alessandra Z.</span>
         <span class="review-date">Luglio 2025</span>
@@ -1027,7 +1243,7 @@ footer p {
 
     <div class="review-card reveal">
       <div class="review-stars">★★★★★</div>
-      <blockquote class="review-text">"Un piccolo ristorante che conferma sempre le sue caratteristiche: cura, passione per il mestiere e ottimo cibo!"</blockquote>
+      <blockquote class="review-text">"Un piccolo ristorante che conferma sempre le sue caratteristiche: cura, passione per il mestiere e ottimo cibo."</blockquote>
       <div class="review-author">
         <span class="review-name">Daniele G.</span>
         <span class="review-date">Marzo 2026</span>
@@ -1036,26 +1252,17 @@ footer p {
 
     <div class="review-card reveal reveal-delay-1">
       <div class="review-stars">★★★★★</div>
-      <blockquote class="review-text">"L'innovazione di Giuseppe e dei suoi collaboratori combina bontà con abilità e tradizione con innovazione — rarissimo trovarlo così bene in equilibrio!"</blockquote>
+      <blockquote class="review-text">"L'innovazione di Giuseppe e dei suoi collaboratori combina bontà con abilità e tradizione con innovazione — rarissimo trovarlo così bene in equilibrio."</blockquote>
       <div class="review-author">
         <span class="review-name">Esteban</span>
         <span class="review-date">Settembre 2023</span>
       </div>
     </div>
 
-    <div class="review-card reveal reveal-delay-2">
-      <div class="review-stars">★★★★</div>
-      <blockquote class="review-text">"Cucina innovativa che propone piatti interessanti. Servizio cortese e personale preparato. Consigliato tra i tanti locali turistici della zona."</blockquote>
-      <div class="review-author">
-        <span class="review-name">Vincenzo</span>
-        <span class="review-date">2024</span>
-      </div>
-    </div>
-
   </div>
 
   <div style="text-align:center;margin-top:2.5rem;" class="reveal">
-    <a href="https://www.tripadvisor.com/Restaurant_Review-g194866-d24173968-Reviews-Ristorante_Serrago_Tradizioneinnovazione-Praia_A_Mare_Province_of_Cosenza_Calabr.html" target="_blank" style="font-size:0.72rem;letter-spacing:0.18em;text-transform:uppercase;color:var(--muted);border-bottom:1px solid var(--border);padding-bottom:2px;transition:color 0.2s;">Leggi tutte le recensioni su TripAdvisor →</a>
+    <a href="https://www.tripadvisor.com/Restaurant_Review-g194866-d24173968-Reviews-Ristorante_Serrago_Tradizioneinnovazione-Praia_A_Mare_Province_of_Cosenza_Calabr.html" target="_blank" rel="noopener" style="font-size:0.72rem;letter-spacing:0.18em;text-transform:uppercase;color:var(--muted);border-bottom:1px solid var(--border);padding-bottom:2px;">Leggi tutte le recensioni →</a>
   </div>
 </section>
 
@@ -1065,7 +1272,7 @@ footer p {
     <p class="section-label">Riserva il tuo tavolo</p>
     <h2 class="section-title">Prenota<br><em>una Serata</em></h2>
     <p style="margin-top:1.5rem;">Ogni serata da Serrago è un'esperienza unica. Riserva il tuo tavolo e lasciati sorprendere dai sapori del Mediterraneo.</p>
-    <p style="margin-top:1rem;">Per prenotazioni di gruppo o eventi privati, contattaci direttamente.</p>
+    <p style="margin-top:1rem;">Per prenotazioni di gruppo o eventi privati, contattaci direttamente al <a href="tel:+393802384386" style="color:var(--accent);">+39 380 238 4386</a>.</p>
   </div>
   <div class="reveal reveal-delay-2">
     <form class="booking-form" id="bookingForm" onsubmit="submitBooking(event)">
@@ -1084,37 +1291,35 @@ footer p {
       <div class="field">
         <label for="ftime">Ora</label>
         <select id="ftime">
-          <option value="19:00">19:00</option>
-          <option value="19:30">19:30</option>
-          <option value="20:00" selected>20:00</option>
-          <option value="20:30">20:30</option>
-          <option value="21:00">21:00</option>
-          <option value="21:30">21:30</option>
-          <option value="22:00">22:00</option>
+          <option>19:30</option>
+          <option>20:00</option>
+          <option>20:30</option>
+          <option>21:00</option>
+          <option>21:30</option>
+          <option>22:00</option>
         </select>
       </div>
       <div class="field">
-        <label for="fguests">Numero di persone</label>
+        <label for="fguests">Ospiti</label>
         <select id="fguests">
-          <option>1</option><option>2</option><option selected>3</option>
-          <option>4</option><option>5</option><option>6</option>
-          <option>7</option><option>8+</option>
+          <option>2</option>
+          <option>3</option>
+          <option>4</option>
+          <option>5</option>
+          <option>6</option>
+          <option>7</option>
+          <option>8+</option>
         </select>
       </div>
       <div class="field">
-        <label for="focc">Occasione speciale</label>
+        <label for="focc">Occasione (opzionale)</label>
         <input type="text" id="focc" placeholder="Compleanno, anniversario...">
       </div>
-      <div class="field full">
-        <label for="fnote">Note aggiuntive</label>
+      <div class="field field-full">
+        <label for="fnote">Note (opzionale)</label>
         <textarea id="fnote" placeholder="Allergie, preferenze, richieste speciali..."></textarea>
       </div>
-      <button type="submit" class="book-btn">
-        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
-          <path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/>
-        </svg>
-        Prenota via WhatsApp
-      </button>
+      <button type="submit" class="booking-submit">Prenota via WhatsApp</button>
     </form>
   </div>
 </section>
@@ -1127,7 +1332,7 @@ footer p {
     <div class="contatti-block reveal reveal-delay-1">
       <h3>Indirizzo</h3>
       <p>Via della Grotta, 15/17<br>87028 Praia a Mare (CS)<br>Calabria, Italia</p>
-      <a href="https://maps.google.com/?q=Ristorante+Serrago+Tradizioneinnovazione+Praia+a+Mare" target="_blank" style="margin-top:0.8rem;color:var(--accent);">Apri in Maps →</a>
+      <a href="https://maps.google.com/?q=Ristorante+Serrago+Tradizioneinnovazione+Praia+a+Mare" target="_blank" rel="noopener" style="margin-top:0.8rem;color:var(--accent);">Apri in Maps →</a>
     </div>
     <div class="contatti-block reveal reveal-delay-2">
       <h3>Orari</h3>
@@ -1140,14 +1345,11 @@ footer p {
     <div class="contatti-block reveal reveal-delay-3">
       <h3>Contatti</h3>
       <a href="tel:+393802384386">+39 380 238 4386</a>
+      <a href="https://wa.me/393802384386" target="_blank" rel="noopener">WhatsApp</a>
       <div class="social-row">
-        <a class="social-btn" href="https://instagram.com/ristoranteserrago" target="_blank">
-          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2" y="2" width="20" height="20" rx="5" ry="5"/><circle cx="12" cy="12" r="4"/><circle cx="17.5" cy="6.5" r="1" fill="currentColor" stroke="none"/></svg>
+        <a class="social-btn" href="https://instagram.com/ristoranteserrago" target="_blank" rel="noopener">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><rect x="2" y="2" width="20" height="20" rx="5" ry="5"/><circle cx="12" cy="12" r="4"/><circle cx="17.5" cy="6.5" r="1" fill="currentColor" stroke="none"/></svg>
           Instagram
-        </a>
-        <a class="social-btn" href="https://tiktok.com" target="_blank">
-          <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor"><path d="M19.59 6.69a4.83 4.83 0 01-3.77-4.25V2h-3.45v13.67a2.89 2.89 0 01-2.88 2.5 2.89 2.89 0 01-2.89-2.89 2.89 2.89 0 012.89-2.89c.28 0 .54.04.79.1V9.01a6.33 6.33 0 00-.79-.05 6.34 6.34 0 00-6.34 6.34 6.34 6.34 0 006.34 6.34 6.34 6.34 0 006.33-6.34V8.69a8.18 8.18 0 004.77 1.52V6.76a4.85 4.85 0 01-1-.07z"/></svg>
-          TikTok
         </a>
       </div>
     </div>
@@ -1167,10 +1369,7 @@ footer p {
   if (!v) return;
   const p = v.play();
   if (p !== undefined) {
-    p.catch(() => {
-      // autoplay blocked (Low Power Mode) — poster image stays visible, looks fine
-      v.style.opacity = '0.85';
-    });
+    p.catch(() => { v.style.opacity = '0.85'; });
   }
 })();
 
@@ -1228,7 +1427,7 @@ const revealObserver = new IntersectionObserver((entries) => {
 
 document.querySelectorAll('.reveal').forEach(el => revealObserver.observe(el));
 
-// ─── DRAG SCROLL RAIL ───
+// ─── DRAG SCROLL: dishes rail ───
 const rail = document.getElementById('dishRail');
 let isDragging = false, startX, scrollLeft;
 rail.addEventListener('mousedown', e => {
@@ -1302,7 +1501,6 @@ function submitBooking(e) {
   window.open(`https://wa.me/393802384386?text=${encodeURIComponent(msg)}`, '_blank');
 }
 
-// Reset field errors on input
 document.getElementById('fname').addEventListener('input', function() {
   this.style.borderColor = '';
 });

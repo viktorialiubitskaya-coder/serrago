@@ -1,0 +1,104 @@
+{
+  "_comment": "Serrago FINAL manifest after visual verification of all 67 photos. Each entry includes verified subject.",
+
+  "piatti_carousel": [
+    {"src": "dish_034_L32_2023-06-16_side.jpg", "new_name": "tataki-tonno", "action": "passthrough", "label": "Tataki di Tonno", "tag": "Secondo · Pesce", "desc": "Tonno scottato al sesamo su piatto di pietra grigia, con foglie di bietola e mirtilli."},
+    {"src": "dish_024_L34_2022-06-20_side.jpg", "new_name": "tonno-sesamo", "action": "passthrough", "label": "Tonno al Sesamo", "tag": "Secondo · Pesce", "desc": "Tataki al sesamo su carta nera, con peperoni verdi e cavolo rosso."},
+    {"src": "dish_036_L32_2023-06-16_side.jpg", "new_name": "gamberi-pistacchio", "action": "passthrough", "label": "Gamberi al Pistacchio", "tag": "Antipasto · Crudo", "desc": "Gamberi con granella di pistacchio, carote glassate, punti di salsa al pisello e pomodoro."},
+    {"src": "dish_063_L27_2023-07-01_main.jpg", "new_name": "crudo-misto", "action": "passthrough", "label": "Crudités di Mare", "tag": "Antipasto · Crudo", "desc": "Selezione di carpacci, salmone affumicato, polpo e gamberi su piatto nero."},
+    {"src": "dish_057_L29_2023-02-17_main.jpg", "new_name": "tartare-pesce", "action": "passthrough", "label": "Tartare di Pesce con Chips", "tag": "Antipasto · Crudo", "desc": "Tartare su letto di radicchio rosso con corona di patate sottili croccanti."},
+    {"src": "dish_043_L32_2023-06-16_side.jpg", "new_name": "gamberi-finocchi", "action": "passthrough", "label": "Gamberi al Pepe e Finocchi", "tag": "Antipasto · Mare", "desc": "Gamberi pepati su insalata di finocchi, su piatto di pietra grigia."},
+    {"src": "dish_070_L26_2022-11-03_main.jpg", "new_name": "carpaccio-cinghiale", "action": "passthrough", "label": "Carpaccio di Cinghiale ai Fichi", "tag": "Antipasto · Terra", "desc": "Carpaccio con balsamico, fichi e mousse di ricotta su pietra grigia — unico piatto di terra del menu."},
+    {"src": "dish_101_L22_2022-10-04_side.jpg", "new_name": "gamberoni-saltati", "action": "passthrough", "label": "Gamberoni Saltati al Pepe Rosa", "tag": "Secondo · Pesce", "desc": "Gamberoni interi saltati con riduzione agrumata e gocce di salsa al lampone."}
+  ],
+
+  "lo_chef_section": [
+    {"src": "dish_007_L49_2023-12-31_main.jpg", "new_name": "chef-giuseppe", "action": "passthrough", "label": "Giuseppe al lavoro", "role": "main-portrait", "desc": "Lo chef Giuseppe in fase di impiattamento, con pinzette, sopra una fila di cucchiaini di gamberi."},
+    {"src": "dish_017_L34_2023-09-09_side.jpg", "new_name": "pesce-fresco", "action": "passthrough", "label": "Il pescato del giorno", "role": "side-process", "desc": "Mani dello chef con pesce fresco di scoglio, sul piano di lavoro in acciaio."},
+    {"src": "dish_082_L26_2022-07-17_side.jpg", "new_name": "plating-service", "action": "passthrough", "label": "Linea di servizio", "role": "process", "desc": "Fila di piatti di branzino impiattati identici, pronti per il servizio."}
+  ],
+
+  "chefs_table_parallax": [
+    {"src": "dish_054_L30_2022-12-08_side.jpg", "new_name": "chefs-table", "action": "passthrough", "label": "Chef's Table", "role": "full-bleed", "desc": "Calice di vino bianco in primo piano, lo chef Giuseppe in cucina aperta sullo sfondo — il momento dell'attesa."}
+  ],
+
+  "galleria_section": [
+    {"src": "dish_083_L26_2022-07-17_side.jpg", "new_name": "gallery-salumi-mare", "action": "passthrough", "role": "wide-feature", "desc": "Selezione di salumi di mare su piatto nero — carpacci e crudo."},
+    {"src": "dish_037_L32_2023-06-16_side.jpg", "new_name": "gallery-zucchine-arrotolate", "action": "passthrough", "role": "square", "desc": "Zucchine arrotolate con alici e crumble di mandorle."},
+    {"src": "dish_062_L29_2022-10-21_main.jpg", "new_name": "gallery-degustazione", "action": "passthrough", "role": "square", "desc": "Sei coppette di degustazione: crudo, tartare, scampi e olio extravergine."},
+    {"src": "dish_079_L26_2022-07-17_side.jpg", "new_name": "gallery-pesce-pietra", "action": "passthrough", "role": "square", "desc": "Filetto di pesce su pietra grigia con verdure marinate."},
+    {"src": "dish_100_L22_2022-10-04_side.jpg", "new_name": "gallery-polpette-baccala", "action": "crop_text_overlay_bottom", "role": "square", "desc": "Polpette di baccalà su insalata di spinaci con vele di pepe crusco e senape antica."},
+    {"src": "dish_028_L33_2023-08-04_side.jpg", "new_name": "gallery-gambero-pomodorini", "action": "passthrough", "role": "square", "desc": "Gambero rosso su pomodorini gialli, con riduzione al lampone e mirtilli."},
+    {"src": "dish_085_L26_2022-07-17_side.jpg", "new_name": "gallery-crudo-totale", "action": "passthrough", "role": "wide-feature", "desc": "Gran piatto di crudo di mare: carpacci, salmone marinato, polpo e gamberi."},
+    {"src": "dish_027_L33_2023-08-04_side.jpg", "new_name": "gallery-polipo-fichi", "action": "passthrough", "role": "square", "desc": "Polpo con purea di zucca e fichi caramellati."}
+  ],
+
+  "la_sala_section": [
+    {"src": "dish_045_L32_2022-08-05_main.jpg", "new_name": "sala-terrazza-insegna", "action": "passthrough", "role": "main", "desc": "Terrazza di sera con tavoli apparecchiati e insegna 'Ristorante Serrago' visibile sulla parete."},
+    {"src": "dish_084_L26_2022-07-17_side.jpg", "new_name": "sala-interno-bonsai", "action": "passthrough", "role": "side", "desc": "Vista dell'interno con bonsai in primo piano e banco bar sullo sfondo."},
+    {"src": "dish_044_L32_2022-08-05_side.jpg", "new_name": "sala-terrazza-lunga", "action": "passthrough", "role": "wide", "desc": "Terrazza esterna di sera, vista lunga con pergolato illuminato."},
+    {"src": "dish_127_L16_2022-08-13_side.jpg", "new_name": "sala-tavoli-apparecchiati", "action": "passthrough", "role": "detail", "desc": "Tavoli apparecchiati con tovaglie bianche e illustrazioni di pesci, calici di vino in primo piano."}
+  ],
+
+  "logo": [
+    {"src": "dish_087_L26_2022-06-16_side.jpg", "new_name": "logo-serrago-source", "action": "passthrough", "_note": "Logo as raster source — will be converted to SVG separately"}
+  ],
+
+  "excluded": [
+    {"src": "dish_013_L39_2023-08-02_side.jpg", "reason": "Frittura di paranza — composition troppo casual per fine-dining tier"},
+    {"src": "dish_014_L39_2023-08-02_main.jpg", "reason": "Tonno con carota — buona ma duplicato di altri tonno migliori"},
+    {"src": "dish_015_L39_2023-08-02_side.jpg", "reason": "Gamberoni con cavolo viola e brillantini gold — Instagram filter di brillantini ai bordi, non rescue"},
+    {"src": "dish_016_L39_2023-08-02_side.jpg", "reason": "Carpaccio polipo con shrimp — buona, sostituita da dish_083 più forte"},
+    {"src": "dish_018_L34_2023-09-09_side.jpg", "reason": "Risotto astice con watermark cursive 'Ristorante Serrago Tradizioneinnovazione' diagonale sul piatto"},
+    {"src": "dish_019_L34_2023-09-09_main.jpg", "reason": "Crudités con watermark 'Crudités' + 'Ristorante Serrago' in cursive"},
+    {"src": "dish_020_L34_2023-09-09_side.jpg", "reason": "Terrace daytime — duplicato meno forte rispetto a dish_044/dish_045"},
+    {"src": "dish_021_L34_2022-06-20_side.jpg", "reason": "Spaghetti cozze — composition standard, no signature"},
+    {"src": "dish_022_L34_2022-06-20_main.jpg", "reason": "Tagliere salumi su piano d'acciaio — fondo di lavoro visibile, non passa fine-dining"},
+    {"src": "dish_023_L34_2022-06-20_side.jpg", "reason": "Pesce con erbette — composition standard"},
+    {"src": "dish_025_L34_2022-06-20_side.jpg", "reason": "Pasta con melanzane — fondo acciaio visibile"},
+    {"src": "dish_026_L34_2022-06-20_side.jpg", "reason": "Risotto bianco residuo cucchiaio — composition di scarto"},
+    {"src": "dish_029_L33_2023-08-04_main.jpg", "reason": "Spaghetti alle verdure — composition standard"},
+    {"src": "dish_030_L33_2023-08-04_side.jpg", "reason": "Cheesecake con piatto splash — buona ma non in scope per gallery (dessert)"},
+    {"src": "dish_031_L33_2023-08-04_side.jpg", "reason": "Panna cotta su fondo giallo Instagram filter — unsalvageable"},
+    {"src": "dish_032_L33_2023-08-04_side.jpg", "reason": "Polipo decostruito con dessert ai frutti — semifreddo background mix"},
+    {"src": "dish_033_L33_2023-08-04_side.jpg", "reason": "Pancetta + sago — composition standard"},
+    {"src": "dish_035_L32_2023-06-16_side.jpg", "reason": "Panna cotta lamponi su fondo giallo — Instagram filter"},
+    {"src": "dish_038_L32_2023-06-16_main.jpg", "reason": "Macedonia di frutta — non in scope"},
+    {"src": "dish_039_L32_2023-06-16_side.jpg", "reason": "Cozze gratinate con vino — frame esagonale + composition"},
+    {"src": "dish_040_L32_2023-06-16_side.jpg", "reason": "Zucchine ripiene su fondo acciaio"},
+    {"src": "dish_041_L32_2023-06-16_side.jpg", "reason": "Low resolution 899x899"},
+    {"src": "dish_042_L32_2023-06-16_side.jpg", "reason": "Pasta con melanzane su nero — duplicato"},
+    {"src": "dish_052_L30_2022-12-08_side.jpg", "reason": "Zucchine grigliate piatto bianco — composition standard"},
+    {"src": "dish_053_L30_2022-12-08_side.jpg", "reason": "Chef's table v2 — duplicato di dish_054 (più forte)"},
+    {"src": "dish_055_L30_2022-12-08_side.jpg", "reason": "Dessert frutti rossi su hexagon frame — frame nero non rimovibile pulito"},
+    {"src": "dish_056_L30_2022-12-08_main.jpg", "reason": "Polpette baccalà al pomodoro — duplicato di dish_100 (più completa)"},
+    {"src": "dish_058_L29_2023-02-17_side.jpg", "reason": "Creme caramel — solo dessert, fuori scope galleria"},
+    {"src": "dish_059_L29_2023-02-17_side.jpg", "reason": "Pasticcino con coulis — composition standard"},
+    {"src": "dish_060_L29_2022-10-21_side.jpg", "reason": "Gamberi rossi con verdure colorate — duplicato di dish_101"},
+    {"src": "dish_061_L29_2022-10-21_side.jpg", "reason": "Polpette baccalà v1 con peperoni — duplicato di dish_100"},
+    {"src": "dish_071_L26_2022-11-03_side.jpg", "reason": "Tartare di tonno con cipolle — composition meno forte"},
+    {"src": "dish_072_L26_2022-11-03_side.jpg", "reason": "Cavoletti su pasta nera — composition standard"},
+    {"src": "dish_078_L26_2022-07-17_main.jpg", "reason": "Chef's table v3 con occhiali da sole — non in linea con tier"},
+    {"src": "dish_080_L26_2022-07-17_side.jpg", "reason": "Low resolution 716x716"},
+    {"src": "dish_081_L26_2022-07-17_side.jpg", "reason": "Low resolution 720x720"},
+    {"src": "dish_090_L24_2022-08-10_side.jpg", "reason": "Calamari + cozze su nero — duplicato"},
+    {"src": "dish_097_L22_2022-10-04_side.jpg", "reason": "Risotto cedro scampi con text overlay — duplicato di altre risotto"},
+    {"src": "dish_098_L22_2022-10-04_side.jpg", "reason": "Cinghiale stinco con text overlay"},
+    {"src": "dish_099_L22_2022-10-04_main.jpg", "reason": "Moscardini affogati con text overlay — soup style non in tier"},
+    {"src": "dish_102_L22_2022-10-04_side.jpg", "reason": "Ravioli barbabietola con text overlay — composition non forte"},
+    {"src": "dish_129_L16_2022-08-13_side.jpg", "reason": "Sala notte v2 — duplicato di dish_127 (più nitida)"}
+  ],
+
+  "_summary": {
+    "total_input": 67,
+    "selected_for_site": 24,
+    "piatti": 8,
+    "lo_chef": 3,
+    "chefs_table": 1,
+    "galleria": 8,
+    "sala": 4,
+    "logo": 1,
+    "excluded": 43,
+    "exclusion_rate_pct": 64
+  }
+}
