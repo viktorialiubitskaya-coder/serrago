@@ -1,85 +1,80 @@
 # Ristorante Serrago — Demo v3
 
-Финальная версия после critical review. Все 4 critical fixes сделаны + 4 secondary.
+Финальная версия. Все critical fixes сделаны + hero полностью переделан после второго раунда review.
 
-## Что изменилось vs v2
+## Архитектура страницы
 
-### Critical (по review feedback)
+| # | Секция | Фото (1 фото = 1 место, никаких дублей) |
+|---|---|---|
+| 1 | Hero — split layout, dish + text | `chefs-table.jpg` (native 1080px, в slot 600px) |
+| 2 | Manifesto — quote on cream bg | — |
+| 3 | Piatti — carousel 7 dishes | `tataki-tonno`, `crudo-misto`, `tartare-pesce`, `gamberi-pistacchio`, `carpaccio-cinghiale`, `gamberi-finocchi`, `gamberoni-saltati` |
+| 4 | Lo Chef — editorial layout | `chef-giuseppe` + `pesce-fresco` + `plating-service` |
+| 5 | Parallax — atmosfera | `sala-terrazza-insegna` (с insegna Serrago) |
+| 6 | Galleria — asymmetric editorial grid | 8 уникальных `gallery-*` |
+| 7 | La Sala — 3 фото террасы | `sala-terrazza-lunga` + `sala-interno-bonsai` + `sala-tavoli` |
+| 8 | Recensioni — 5 verified TripAdvisor reviews | — |
+| 9 | Riserva — phone CTA + form | — |
+| 10 | Contatti — address + hours + IG | — |
 
-| Проблема | Что сделано |
-|---|---|
-| Gold-on-black палитра (luxury cliché) | **Полная замена** на cream/terracotta, цвета derived из реального фото террасы Serrago — `#8B3D2E` accent взят с самой стены ресторана |
-| "Vieni a trovarci" в Contatti | Заменено на "Dove siamo" |
-| Форма "Prenota via WhatsApp" | Кнопка → "Richiedi prenotazione". Форма теперь отправляет mailto: info@ristoranteserrago.it (в production — wire to backend/CRM). WhatsApp deeplink убран полностью |
-| Слово "Prenota" 4× | Сокращено до 0× (как CTA). Везде "Riserva" (nav, hero, section title) или "prenotazione" (noun в форме) |
+24 уникальных photo asset, каждый используется **1 раз**. Никаких дублей.
 
-### Secondary (мои предложения)
+## Hero — что изменилось
 
-| Проблема | Что сделано |
-|---|---|
-| Hero video unknown origin | Заменено на static photo `hero-serrago.jpg` (16:9 crop из фото террасы с insegna). Никакого AI/unknown content |
-| Tonno × 2 (Tataki + Sesamo) | Убран `tonno-sesamo`. Осталось 7 piatti |
-| Carpaccio cinghiale "странный" | Усилен framing: tag "Unico di terra", description "L'unico piatto di terra in un menu di mare" |
-| Fabricated reviews с fake именами | Заменены на **5 verified реальных reviews** из публичных TripAdvisor отзывов (через web search), каждая помечена "Recensione Tripadvisor", без вымышленных имён |
-| Phone number unprominent | Большая кнопка-карточка в Riserva секции с иконкой и явным "Chiamaci direttamente" |
+После первого preview hero на full-bleed (терраса с insegna) выглядел блёкло. Проблема — Instagram-фото 1080×1080 апскейленное в 1920×1080 = пикселизация на retina.
 
-### Не тронуто (работало в v2)
+**Новый layout:**
+- Split-grid `1.1fr 1fr` — text слева, dish photo справа
+- Фото `chefs-table.jpg` показывается в **native размере** (max 600px на desktop) — никакого upscaling
+- Cream фон, контрастные тарелки естественно становятся focal point
+- Гигантская типография `clamp(3rem, 8vw, 6.5rem)` Cormorant 300
+- Над CTA — gold accent divider (60px line) + trio "Pesce fresco · Cucina aperta · Chef-patron"
+- Под фото — micro caption "Cucina aperta · La cucina che lavora"
 
-- Editorial asymmetric Galleria layout
-- Lo Chef секция с Giuseppe
-- La Sala секция с 3 фото террасы
-- Chef's Table parallax
-- 8 piatti carousel (теперь 7)
-- Mobile menu + accessibility (skip-link, focus-visible, ARIA)
-- WebP fallback через `<picture>`
-- Logo Serrago (теперь tinted в terracotta filter)
+Это honest editorial approach — мы не претендуем на professional photography, мы показываем реальный moment в нативном качестве.
 
-## Palette reference
-
-Реальные цвета извлечены из фото `dish_045` (терраса с insegna):
+## Палитра (derived from реального фото террасы)
 
 ```
---bg:        #F0EAE0   /* cream — tone of tablecloth + shatre */
---bg2:       #E6DFD3   /* darker cream — section alternance */
---surface:   #FFFFFF   /* pure white — cards */
---ink:       #1F1A17   /* warm sepia — text */
---text:      #2A2420   /* body text */
---muted:     #6B5D52   /* warm brown-grey — secondary */
---soft:      #9D8E80   /* softer brown */
---accent:    #8B3D2E   /* DEEP TERRACOTTA — from real wall */
---accent-l:  #B85A47   /* lighter terracotta — hover */
---sage:      #708477   /* secondary accent — from plants */
---border:    #D4CBBC   /* cream-based border */
+--bg:        #F0EAE0   /* cream */
+--bg2:       #E6DFD3
+--surface:   #FFFFFF
+--ink:       #1F1A17   /* warm sepia */
+--text:      #2A2420
+--muted:     #6B5D52
+--soft:      #9D8E80
+--accent:    #8B3D2E   /* terracotta — из стены Serrago */
+--accent-l:  #B85A47
+--sage:      #708477
 ```
-
-Эта палитра — **сами цвета ресторана**. Никакого generic luxury.
 
 ## Файлы
 
 ```
 serrago-v3/
-├── index.html                   # 1541 строк
-├── process_serrago_photos.sh    # Batch script
-├── manifest_final.json          # Manifest по 67 источникам
-├── README.md                    # Этот файл
-└── img/
-    ├── logo-serrago-bw.png      # Logo
-    ├── hero-serrago.{jpg,webp}  # NEW — 16:9 hero crop вместо видео
-    ├── tataki-tonno.{jpg,webp}  # 7 piatti (было 8)
+├── index.html                   # 1635 строк
+├── process_serrago_photos.sh    # Batch script для пересборки фото
+├── manifest_final.json
+├── README.md
+└── img/                          # 50 файлов
+    ├── logo-serrago-bw.png
+    ├── tataki-tonno.{jpg,webp}
     ├── crudo-misto.{jpg,webp}
     ├── tartare-pesce.{jpg,webp}
     ├── gamberi-pistacchio.{jpg,webp}
     ├── carpaccio-cinghiale.{jpg,webp}
     ├── gamberi-finocchi.{jpg,webp}
     ├── gamberoni-saltati.{jpg,webp}
-    ├── chef-*.{jpg,webp}        # 3 Lo Chef
-    ├── chefs-table.{jpg,webp}   # 1 parallax
-    ├── gallery-*.{jpg,webp}     # 8 Galleria
-    └── sala-*.{jpg,webp}        # 4 La Sala
+    ├── chef-giuseppe.{jpg,webp}
+    ├── pesce-fresco.{jpg,webp}
+    ├── plating-service.{jpg,webp}
+    ├── chefs-table.{jpg,webp}     # NOW only in hero
+    ├── gallery-*.{jpg,webp}       # 8 шт
+    ├── sala-terrazza-insegna.{jpg,webp}   # only in parallax now
+    ├── sala-terrazza-lunga.{jpg,webp}     # now in lasala-main
+    ├── sala-interno-bonsai.{jpg,webp}
+    └── sala-tavoli.{jpg,webp}
 ```
-
-26 уникальных image assets (52 файла с webp+jpg парами + 1 logo PNG).
-Total размер: 8.0 MB.
 
 ## Развёртывание
 
@@ -89,47 +84,34 @@ python3 -m http.server 8080
 # открыть http://localhost:8080
 ```
 
-Для GitHub Pages:
+## Если позже захочешь AI hero
 
-```bash
-git init && git add . && git commit -m "Serrago demo v3"
-git remote add origin git@github.com:viktorialiubitskaya-coder/serrago.git
-git push -u origin main
-# Settings → Pages → Source: main / root
+У тебя есть Gemini Imagen 4 pipeline в `/Users/mac/my_ai_project/.env`. Подсказка для prompt:
+
+```
+Cinematic 16:9 photo, contemporary Italian fine-dining restaurant in
+Calabria. Soft warm interior lighting, terracotta walls, white tablecloths,
+single wine glass in foreground (out of focus). Open kitchen visible in
+distance with stainless steel and soft glow. Aspect ratio 21:9, ultra-wide,
+shallow depth of field, restaurant atmosphere. No people. No text. No
+generic stock-photo feel — editorial, magazine quality.
 ```
 
-## Reviews — атрибуция
+Сохрани как `hero-cinematic.{jpg,webp}` и замени hero-image picture sources. Layout уже готов к full-bleed — нужно только убрать grid и вернуть absolute positioning из старой версии (документация выше с palette → есть в git history через diff).
 
-Все 5 отзывов взяты с публичных страниц Tripadvisor (verified через web search). Каждый помечен "Recensione Tripadvisor". Без выдуманных имён или дат. Линк "Leggi tutte le recensioni" ведёт на реальную страницу Serrago на TripAdvisor (d24173968).
+## Booking form — production
 
-**В production** — рекомендую wire to live Tripadvisor/Google API через MCP integration или server-side fetch (для ежемесячных обновлений отзывов). Но для demo это **достаточно** — все цитаты verified и атрибутированы.
+Сейчас работает через mailto (placeholder `info@ristoranteserrago.it`). В production:
+1. Получить от Giuseppe реальный email
+2. Wire к Resend / FormSpree / Vercel serverless
+3. Опционально — Telegram notification Giuseppe о новых запросах
 
-## Booking form — production handoff
+## Что осталось перед production
 
-Форма сейчас работает через `mailto:` — открывает email клиент пользователя с pre-filled body. В production нужно:
-
-1. **Заменить mailto на backend POST** (Resend, FormSpree, или Vercel serverless function)
-2. **Wire to real email** Giuseppe (заменить `info@ristoranteserrago.it` placeholder)
-3. Опционально — auto-confirmation email обратно пользователю
-4. Опционально — Telegram/WhatsApp notification Giuseppe о новых запросах (через webhook)
-
-Это **30 минут работы** на production stage — сейчас demo достаточен.
-
-## Что осталось перед отправкой Giuseppe
-
-- [ ] Локальный preview через `python3 -m http.server 8080`
-- [ ] Mobile test в Chrome DevTools (375px, 768px)
-- [ ] Логотип tinted в terracotta — проверить визуально
-- [ ] Hero photo 16:9 — что insegna видна
-- [ ] 5 reviews подгружаются и rail скроллится drag-ом
-- [ ] Phone CTA в Riserva — кликабельность
-
-## Что нужно от клиента до production
-
-- P.IVA для footer
-- Реальный email для booking form
-- Domain choice (ristoranteserrago.it или похожий)
-- GDPR cookie banner + Privacy Policy + Cookie Policy
-- Google Analytics 4 или Plausible setup
-- Schema.org Restaurant JSON-LD для SEO
-- Open Graph meta tags для соцсетей
+- [ ] P.IVA для footer
+- [ ] Реальный email Giuseppe для формы
+- [ ] Domain (ristoranteserrago.it)
+- [ ] GDPR cookie banner + Privacy Policy + Cookie Policy
+- [ ] Schema.org Restaurant JSON-LD
+- [ ] Open Graph meta tags
+- [ ] Google Analytics или Plausible
