@@ -110,11 +110,13 @@ nav.scrolled {
 .nav-logo {
   height: 44px;
   width: auto;
-  /* Make black B&W logo into terracotta */
-  filter: brightness(0) saturate(100%) invert(26%) sepia(38%) saturate(1480%) hue-rotate(341deg) brightness(92%) contrast(90%);
+  filter: brightness(0) invert(1);
   transition: filter 0.3s, height 0.3s;
 }
-nav.scrolled .nav-logo { height: 34px; }
+nav.scrolled .nav-logo {
+  height: 34px;
+  filter: brightness(0) saturate(100%) invert(26%) sepia(38%) saturate(1480%) hue-rotate(341deg) brightness(92%) contrast(90%);
+}
 .nav-links {
   display: flex;
   gap: 2.4rem;
@@ -123,21 +125,25 @@ nav.scrolled .nav-logo { height: 34px; }
   font-size: 0.74rem;
   letter-spacing: 0.18em;
   text-transform: uppercase;
-  color: var(--text);
+  color: rgba(245,242,238,0.88);
   transition: color 0.2s;
 }
-.nav-links a:hover { color: var(--accent); }
+.nav-links a:hover { color: #fff; }
+nav.scrolled .nav-links a { color: var(--text); }
+nav.scrolled .nav-links a:hover { color: var(--accent); }
 .nav-cta {
   font-size: 0.72rem;
   letter-spacing: 0.18em;
   text-transform: uppercase;
-  border: 1px solid var(--accent);
-  color: var(--accent);
+  border: 1px solid rgba(245,242,238,0.65);
+  color: rgba(245,242,238,0.92);
   padding: 0.6rem 1.4rem;
   border-radius: 2px;
   transition: background 0.25s, color 0.25s;
 }
-.nav-cta:hover { background: var(--accent); color: var(--bg); }
+.nav-cta:hover { background: rgba(245,242,238,0.15); border-color: #fff; color: #fff; }
+nav.scrolled .nav-cta { border-color: var(--accent); color: var(--accent); }
+nav.scrolled .nav-cta:hover { background: var(--accent); color: var(--bg); }
 
 /* ─── HAMBURGER ─── */
 .nav-hamburger {
@@ -215,7 +221,8 @@ nav.scrolled .nav-logo { height: 34px; }
   overflow: hidden;
   display: flex;
   align-items: center;
-  justify-content: center;
+  justify-content: flex-start;
+  padding-left: clamp(2.5rem, 8vw, 10rem);
 }
 #hero-bg {
   position: absolute;
@@ -223,45 +230,55 @@ nav.scrolled .nav-logo { height: 34px; }
   width: 100%;
   height: 100%;
   object-fit: cover;
-  object-position: center;
+  object-position: 30% center;
   z-index: 0;
 }
 .hero-overlay {
   position: absolute;
   inset: 0;
   z-index: 1;
-  background: linear-gradient(
-    180deg,
-    rgba(31,26,23,0.42) 0%,
-    rgba(31,26,23,0.28) 45%,
-    rgba(31,26,23,0.58) 100%
-  );
+  background:
+    linear-gradient(90deg, rgba(15,12,10,0.82) 0%, rgba(15,12,10,0.45) 50%, rgba(15,12,10,0.05) 100%),
+    linear-gradient(180deg, rgba(15,12,10,0.20) 0%, rgba(15,12,10,0.0) 50%, rgba(15,12,10,0.55) 100%);
 }
 .hero-content {
-  position: relative;
+  position: absolute;
+  left: clamp(2.5rem, 8vw, 10rem);
+  top: 50%;
+  transform: translateY(-50%);
   z-index: 2;
-  text-align: center;
-  padding: 0 2rem;
-  max-width: 900px;
+  text-align: left;
+  max-width: 520px;
 }
 .hero-eyebrow {
-  font-size: 0.72rem;
-  letter-spacing: 0.36em;
+  font-size: 0.78rem;
+  letter-spacing: 0.38em;
   text-transform: uppercase;
-  color: rgba(245,242,238,0.78);
-  margin-bottom: 2rem;
+  color: rgba(245,242,238,0.90);
+  margin-bottom: 1.4rem;
   opacity: 0;
   transform: translateY(12px);
   transition: opacity 0.9s var(--ease), transform 0.9s var(--ease);
 }
+.hero-accent-line {
+  width: 52px;
+  height: 1px;
+  background: var(--accent-l);
+  margin-bottom: 1.6rem;
+  opacity: 0;
+  transform: scaleX(0);
+  transform-origin: left;
+  transition: opacity 0.7s 0.05s var(--ease), transform 0.7s 0.05s var(--ease);
+}
 .hero-title {
   font-family: var(--font-d);
-  font-size: clamp(3.5rem, 9vw, 8rem);
+  font-size: clamp(4.5rem, 10vw, 9.5rem);
   font-weight: 300;
-  line-height: 0.92;
+  line-height: 0.88;
   letter-spacing: -0.02em;
   color: #FFFFFF;
-  margin-bottom: 1.8rem;
+  text-shadow: 0 2px 24px rgba(0,0,0,0.45);
+  margin-bottom: 1.6rem;
   opacity: 0;
   transform: translateY(20px);
   transition: opacity 0.9s 0.15s var(--ease), transform 0.9s 0.15s var(--ease);
@@ -269,9 +286,9 @@ nav.scrolled .nav-logo { height: 34px; }
 .hero-sub {
   font-family: var(--font-d);
   font-style: italic;
-  font-size: clamp(1.1rem, 2.2vw, 1.6rem);
+  font-size: clamp(1.2rem, 2.2vw, 1.7rem);
   font-weight: 400;
-  color: rgba(245,242,238,0.88);
+  color: rgba(245,242,238,0.92);
   margin-bottom: 2.8rem;
   opacity: 0;
   transform: translateY(16px);
@@ -279,18 +296,27 @@ nav.scrolled .nav-logo { height: 34px; }
 }
 .hero-cta {
   display: inline-block;
-  font-size: 0.75rem;
-  letter-spacing: 0.18em;
+  font-size: 0.72rem;
+  letter-spacing: 0.20em;
   text-transform: uppercase;
-  border: 1px solid rgba(245,242,238,0.65);
+  border: 1px solid rgba(245,242,238,0.60);
   color: rgba(245,242,238,0.92);
-  padding: 1rem 2.6rem;
+  padding: 1rem 2.4rem;
   border-radius: 2px;
   opacity: 0;
   transform: translateY(12px);
   transition: opacity 0.8s 0.5s var(--ease), transform 0.8s 0.5s var(--ease), background 0.28s;
 }
 .hero-cta:hover { background: rgba(245,242,238,0.12); border-color: rgba(245,242,238,0.9); }
+#hero::after {
+  content: '';
+  position: absolute;
+  bottom: 0; left: 0; right: 0;
+  height: 300px;
+  background: linear-gradient(to bottom, transparent 0%, var(--bg2) 100%);
+  z-index: 2;
+  pointer-events: none;
+}
 .hero-scroll {
   position: absolute;
   bottom: 2.5rem;
@@ -478,25 +504,7 @@ section { padding: 7rem 3rem; }
   line-height: 0.9;
   margin: 0.1rem 0.5rem 0 0;
 }
-.lochef-side-row {
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-  gap: 1.2rem;
-  margin-top: 4rem;
-  max-width: 1400px;
-  margin-left: auto;
-  margin-right: auto;
-}
-.lochef-side-row > div {
-  aspect-ratio: 4/3;
-  overflow: hidden;
-  border-radius: 2px;
-  box-shadow: var(--shadow-soft);
-}
-.lochef-side-row img {
-  height: 100%;
-  object-fit: cover;
-}
+
 
 /* ─── CHEF'S TABLE PARALLAX ─── */
 #chefs-table {
@@ -504,6 +512,24 @@ section { padding: 7rem 3rem; }
   height: 75vh;
   min-height: 500px;
   overflow: hidden;
+}
+#chefs-table::before {
+  content: '';
+  position: absolute;
+  top: 0; left: 0; right: 0;
+  height: 260px;
+  background: linear-gradient(to bottom, var(--bg2) 0%, transparent 100%);
+  z-index: 4;
+  pointer-events: none;
+}
+#chefs-table::after {
+  content: '';
+  position: absolute;
+  bottom: 0; left: 0; right: 0;
+  height: 140px;
+  background: linear-gradient(to top, var(--bg) 0%, transparent 100%);
+  z-index: 4;
+  pointer-events: none;
 }
 #chefs-table picture, #chefs-table img {
   position: absolute;
@@ -517,13 +543,12 @@ section { padding: 7rem 3rem; }
   position: absolute;
   inset: 0;
   z-index: 2;
-  background:
-    linear-gradient(180deg, rgba(31,26,23,0.45) 0%, rgba(31,26,23,0.25) 40%, rgba(31,26,23,0.60) 100%);
+  background: linear-gradient(180deg, rgba(31,26,23,0.45) 0%, rgba(31,26,23,0.25) 40%, rgba(31,26,23,0.60) 100%);
 }
 .chefs-table-text {
   position: absolute;
   inset: 0;
-  z-index: 3;
+  z-index: 5;
   display: flex;
   flex-direction: column;
   justify-content: center;
@@ -552,14 +577,14 @@ section { padding: 7rem 3rem; }
 /* ─── GALLERIA — EDITORIAL ASYMMETRIC ─── */
 #galleria {
   background: var(--bg);
-  padding: 9rem 3rem;
+  padding: 4rem 3rem 6rem;
 }
 .galleria-grid {
   display: grid;
-  grid-template-columns: repeat(6, 1fr);
-  gap: 1rem;
-  margin-top: 3.5rem;
-  max-width: 1500px;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 0.7rem;
+  margin-top: 2rem;
+  max-width: 1400px;
   margin-left: auto;
   margin-right: auto;
 }
@@ -571,17 +596,23 @@ section { padding: 7rem 3rem; }
   background: var(--bg2);
   box-shadow: var(--shadow-soft);
 }
+.gallery-cell picture {
+  display: block;
+  width: 100%;
+  height: 100%;
+}
 .gallery-cell img {
+  width: 100%;
   height: 100%;
   object-fit: cover;
   transition: transform 0.7s var(--ease);
 }
 .gallery-cell:hover img { transform: scale(1.06); }
 
-.gc-wide   { grid-column: span 4; aspect-ratio: 16/9; }
-.gc-tall   { grid-column: span 2; grid-row: span 2; aspect-ratio: 2/3; }
-.gc-sq     { grid-column: span 2; aspect-ratio: 1; }
-.gc-wide3  { grid-column: span 3; aspect-ratio: 3/2; }
+.gc-banner { grid-column: span 3; aspect-ratio: 3/1; }
+.gc-tall   { grid-column: span 1; grid-row: span 2; }
+.gc-sq     { grid-column: span 1; aspect-ratio: 1; }
+.gc-wide   { grid-column: span 2; aspect-ratio: 2/1; }
 
 /* ─── LIGHTBOX ─── */
 #lightbox {
@@ -620,7 +651,16 @@ section { padding: 7rem 3rem; }
 /* ─── LA SALA ─── */
 #lasala {
   background: var(--bg2);
-  padding: 9rem 3rem;
+  padding: 6rem 3rem;
+  position: relative;
+}
+#lasala::before {
+  content: '';
+  position: absolute;
+  top: 0; left: 0; right: 0;
+  height: 120px;
+  background: linear-gradient(to bottom, var(--bg) 0%, var(--bg2) 100%);
+  pointer-events: none;
 }
 .lasala-grid {
   display: grid;
@@ -635,19 +675,20 @@ section { padding: 7rem 3rem; }
 .lasala-main {
   grid-column: 1;
   grid-row: 1 / span 2;
-  aspect-ratio: 4/5;
   overflow: hidden;
   border-radius: 2px;
   box-shadow: var(--shadow-card);
 }
-.lasala-main img { height: 100%; object-fit: cover; }
+.lasala-main picture { display: block; width: 100%; height: 100%; }
+.lasala-main img { width: 100%; height: 100%; object-fit: cover; }
 .lasala-side {
   aspect-ratio: 4/3;
   overflow: hidden;
   border-radius: 2px;
   box-shadow: var(--shadow-soft);
 }
-.lasala-side img { height: 100%; object-fit: cover; }
+.lasala-side picture { display: block; width: 100%; height: 100%; }
+.lasala-side img { width: 100%; height: 100%; object-fit: cover; }
 
 /* ─── RECENSIONI ─── */
 #recensioni {
@@ -891,7 +932,7 @@ footer {
 /* ─── REDUCED MOTION ─── */
 @media (prefers-reduced-motion: reduce) {
   .reveal { opacity: 1; transform: none; transition: none; }
-  .hero-eyebrow, .hero-title, .hero-sub, .hero-divider, .hero-trio, .hero-cta, .hero-image { opacity: 1; transform: none; transition: none; }
+  .hero-eyebrow, .hero-title, .hero-sub, .hero-divider, .hero-trio, .hero-cta, .hero-image, .hero-accent-line { opacity: 1; transform: none; transition: none; }
   .hero-divider { transform: scaleX(1); }
   .hero-scroll-line { animation: none; }
   .dish-card, .gallery-cell img, .review-card { transition: none; }
@@ -907,6 +948,8 @@ footer {
   .nav-hamburger { display: flex; }
   .nav-cta { display: none; }
   section { padding: 5rem 1.5rem; }
+  #hero { padding-left: 1.8rem; }
+  .hero-content { text-align: left; max-width: 100%; }
   .hero-title { font-size: clamp(3rem, 14vw, 5rem); }
   .hero-scroll { display: none; }
   #piatti { padding: 5rem 0 5rem 1.5rem; }
@@ -915,12 +958,12 @@ footer {
   .dish-card { flex: 0 0 280px; }
   .lochef-grid { grid-template-columns: 1fr; gap: 2.5rem; }
   .lochef-text { padding-left: 0; }
-  .lochef-side-row { margin-top: 2.5rem; }
+
   .galleria-grid { grid-template-columns: repeat(2, 1fr); }
-  .gc-wide   { grid-column: span 2; aspect-ratio: 16/10; }
-  .gc-tall   { grid-column: span 2; grid-row: auto; aspect-ratio: 4/5; }
+  .gc-banner { grid-column: span 2; aspect-ratio: 16/9; }
+  .gc-tall   { grid-column: span 1; grid-row: auto; aspect-ratio: 1; }
   .gc-sq     { grid-column: span 1; aspect-ratio: 1; }
-  .gc-wide3  { grid-column: span 2; aspect-ratio: 16/10; }
+  .gc-wide   { grid-column: span 2; aspect-ratio: 16/9; }
   .lasala-grid { grid-template-columns: 1fr; }
   .lasala-main { grid-column: 1; grid-row: auto; aspect-ratio: 4/5; }
   #riserva { grid-template-columns: 1fr; gap: 3rem; padding: 5rem 1.5rem; }
@@ -972,12 +1015,13 @@ footer {
 <!-- HERO -->
 <section id="hero">
   <picture>
-    <source srcset="img/sala-terrazza-insegna.webp" type="image/webp">
-    <img id="hero-bg" src="img/sala-terrazza-insegna.jpg" alt="La terrazza di Serrago con insegna illuminata" fetchpriority="high">
+    <source srcset="img/hero-bonsai-wide.webp" type="image/webp">
+    <img id="hero-bg" src="img/hero-bonsai-wide.jpg" alt="Cucina aperta di Serrago" fetchpriority="high">
   </picture>
   <div class="hero-overlay"></div>
   <div class="hero-content">
     <p class="hero-eyebrow" id="he">Praia a Mare · Calabria</p>
+    <div class="hero-accent-line" id="hal"></div>
     <h1 class="hero-title" id="ht">Ristorante<br>Serrago</h1>
     <p class="hero-sub" id="hs">Tradizione e Innovazione</p>
     <a href="#riserva" class="hero-cta" id="hc">Riserva un tavolo</a>
@@ -1123,20 +1167,6 @@ footer {
       <p>Cucina aperta a vista, perché la trasparenza fa parte dell'esperienza. Materie prime selezionate ogni mattina, lavorate con rispetto e impiattate con cura — il filo conduttore di Serrago dal primo giorno.</p>
     </div>
   </div>
-  <div class="lochef-side-row">
-    <div class="reveal">
-      <picture>
-        <source srcset="img/pesce-fresco.webp" type="image/webp">
-        <img src="img/pesce-fresco.jpg" alt="Lo chef seleziona il pescato del giorno">
-      </picture>
-    </div>
-    <div class="reveal reveal-delay-2">
-      <picture>
-        <source srcset="img/plating-service.webp" type="image/webp">
-        <img src="img/plating-service.jpg" alt="Linea di servizio con piatti impiattati identicamente">
-      </picture>
-    </div>
-  </div>
 </section>
 
 <!-- CHEF'S TABLE PARALLAX → ATMOSFERA -->
@@ -1158,7 +1188,7 @@ footer {
   <h2 class="section-title reveal reveal-delay-1">Galleria</h2>
   <div class="galleria-grid">
 
-    <div class="gallery-cell gc-wide reveal" role="button" tabindex="0" onclick="openLightbox(this)" onkeydown="if(event.key==='Enter'||event.key===' ')openLightbox(this)">
+    <div class="gallery-cell gc-banner reveal" role="button" tabindex="0" onclick="openLightbox(this)" onkeydown="if(event.key==='Enter'||event.key===' ')openLightbox(this)">
       <picture>
         <source srcset="img/gallery-salumi-mare.webp" type="image/webp">
         <img src="img/gallery-salumi-mare.jpg" alt="Selezione di salumi di mare su piatto nero" loading="lazy">
@@ -1186,14 +1216,14 @@ footer {
       </picture>
     </div>
 
-    <div class="gallery-cell gc-wide3 reveal" role="button" tabindex="0" onclick="openLightbox(this)" onkeydown="if(event.key==='Enter'||event.key===' ')openLightbox(this)">
+    <div class="gallery-cell gc-sq reveal" role="button" tabindex="0" onclick="openLightbox(this)" onkeydown="if(event.key==='Enter'||event.key===' ')openLightbox(this)">
       <picture>
         <source srcset="img/gallery-crudo-totale.webp" type="image/webp">
         <img src="img/gallery-crudo-totale.jpg" alt="Gran piatto di crudo di mare con carpacci, salmone e polpo" loading="lazy">
       </picture>
     </div>
 
-    <div class="gallery-cell gc-wide3 reveal reveal-delay-1" role="button" tabindex="0" onclick="openLightbox(this)" onkeydown="if(event.key==='Enter'||event.key===' ')openLightbox(this)">
+    <div class="gallery-cell gc-wide reveal reveal-delay-1" role="button" tabindex="0" onclick="openLightbox(this)" onkeydown="if(event.key==='Enter'||event.key===' ')openLightbox(this)">
       <picture>
         <source srcset="img/gallery-polpette-baccala.webp" type="image/webp">
         <img src="img/gallery-polpette-baccala.jpg" alt="Polpette di baccalà su spinaci freschi" loading="lazy">
@@ -1448,15 +1478,18 @@ window.addEventListener('load', () => {
       const el = document.getElementById(id);
       if (el) el.style.cssText = 'opacity:1;transform:none;transition:none';
     });
+    const hal = document.getElementById('hal');
+    if (hal) hal.style.cssText = 'opacity:1;transform:scaleX(1);transition:none';
   } else {
     setTimeout(() => {
       ids.forEach(id => {
         const el = document.getElementById(id);
         if (el) el.style.cssText = 'opacity:1;transform:none';
       });
-      // hero-divider has special scaleX origin, restore after
       const hd = document.getElementById('hd');
       if (hd) hd.style.cssText = 'opacity:1;transform:scaleX(1)';
+      const hal = document.getElementById('hal');
+      if (hal) hal.style.cssText = 'opacity:1;transform:scaleX(1)';
     }, 200);
   }
 });
